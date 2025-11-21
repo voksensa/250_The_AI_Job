@@ -6,7 +6,7 @@
 - **Epic**: E001 – Foundation
 - **Phase**: Phase 1 – MVP
 - **Owner**: Developer
-- **Status**: Done
+- **Status**: Ready to Start
 - **Created**: 2025-11-21
 - **Target Gates**: G5 (Tests), G6 (Builds), G10 (Owner can use it)
 - **Related Decisions**:
