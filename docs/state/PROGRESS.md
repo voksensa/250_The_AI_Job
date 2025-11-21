@@ -1,5 +1,7 @@
 # PROGRESS LOG
 
+- **2025-11-21** – CEO – Tool versions updated: pytest 9.0.x, mypy 1.18.x, ruff, coverage 7.12.x, ESLint 9.39.x, Vitest 4.x per November 2025 standards.
+- **2025-11-21** – CEO – CLAUDE.md + AGENTS.md updated with execution framework references.
 - **2025-11-21** – CEO – Phase 0 implementation started: Created constitution files (ROADMAP_SPEC, EXECUTION_PROTOCOL_SPEC, NOVEMBER_2025_STANDARDS) and complete evidence directory structure (G1-G11).
 - **2025-11-21** – CEO – Research approved: ALL_IN_ONE.MD deliverable from researcher meets all RQ1-RQ4 requirements.
 - **2025-11-21** – CEO – TASK-003 REJECTED by Owner. All work blocked pending research brief.
