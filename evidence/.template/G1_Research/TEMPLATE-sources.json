@@ -1,0 +1,26 @@
+[
+    {
+        "url": "https://example.com/source1",
+        "title": "Source Title",
+        "publisher": "Publisher Name",
+        "date": "2025-11-21",
+        "type": "primary|secondary",
+        "note": "Brief relevance note"
+    },
+    {
+        "url": "https://example.com/source2",
+        "title": "Another Source",
+        "publisher": "Publisher Name",
+        "date": "2025-11-20",
+        "type": "primary|secondary",
+        "note": "Brief relevance note"
+    },
+    {
+        "url": "https://example.com/source3",
+        "title": "Third Source",
+        "publisher": "Publisher Name",
+        "date": "2025-11-19",
+        "type": "primary|secondary",
+        "note": "Brief relevance note"
+    }
+]
