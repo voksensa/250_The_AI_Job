@@ -35,7 +35,7 @@ app = FastAPI(title="Agent Runtime", version="0.1.0", lifespan=lifespan)
 # CORS middleware for Owner Console
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3030", "http://localhost:3000"],
+    allow_origins=["http://localhost:3000"],  # Allow Next.js frontend
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
