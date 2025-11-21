@@ -62,3 +62,6 @@ async def health_check() -> dict[str, str]:
         "version": "0.1.0",
         "environment": settings.environment
     }
+
+from .api.routes import router as tasks_router
+app.include_router(tasks_router, prefix="/api")
