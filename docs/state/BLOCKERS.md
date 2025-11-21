@@ -2,24 +2,18 @@
 
 ## Open
 
-- **ID**: B-005
-  - **Date**: 2025-11-21
-  - **Blocker**: Python 3.9.6 found, need ≥3.11 for agent-runtime
-  - **Task**: Phase 0 - Tool Version Verification
-  - **Severity**: LOW (code correct, verification pending)
-  - **Description**: 
-    - System Python: 3.9.6 (Xcode)
-    - Required: ≥3.11 (per NOVEMBER_2025_STANDARDS.md + pyproject.toml)
-    - Checked: /usr/local/bin, /opt/homebrew/bin - no Python 3.11+ found
-  - **Impact**: Cannot verify Python tool installations (pytest, mypy, ruff, coverage)
-  - **Resolution Options**:
-    1. **Install Python 3.11+**: `brew install python@3.11` or `brew install python@3.12`
-    2. **Defer to Docker**: Verify in Docker container (has Python 3.11+ base image)
-    3. **Defer to CI**: Let CI pipeline verify on push
-  - **Recommendation**: Option 2 (Docker) - most aligned with production environment
-  - **Status**: AWAITING OWNER DECISION
+*None - B-005 resolved*
 
 ## Resolved
+
+- **ID**: B-005
+  - **Date**: 2025-11-21  
+  - **Resolution**: Used Python 3.12 from /opt/homebrew/bin, created venv, all tools verified working
+  - **Task**: Phase 0 - Tool Version Verification
+  - **Evidence**: 
+    - Python 3.12 venv at apps/agent-runtime/.venv
+    - pytest 9.0.1, mypy 1.18.2, ruff 0.14.6, coverage 7.12.0 installed
+    - All lint + type checks pass (commits 43d4968, [latest])
 
 - **ID**: B-004
   - **Date**: 2025-11-21
