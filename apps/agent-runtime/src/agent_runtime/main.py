@@ -5,25 +5,11 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic_settings import BaseSettings
+from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
 
 from .api.routes import router as tasks_router
-
-
-class Settings(BaseSettings):
-    """Application settings from environment variables."""
-
-    database_url: str = "postgresql://yfe:yfe_dev_pass@localhost:5432/yfe_db"
-    environment: str = "development"
-    debug: bool = True
-    openai_api_key: str = ""
-    anthropic_api_key: str = ""
-
-    class Config:
-        env_file = ".env"
-
-
-settings = Settings()
+from .graph import create_graph
+from .settings import settings
 
 
 @asynccontextmanager
@@ -35,7 +21,10 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     db_host = db_url.split("@")[1] if "@" in db_url else "N/A"
     print(f"📊 Database: {db_host}")
 
-    yield
+    async with AsyncPostgresSaver.from_conn_string(db_url) as checkpointer:
+        await checkpointer.setup()
+        app.state.graph = create_graph(checkpointer)
+        yield
 
     # Shutdown
     print("🛑 Agent Runtime shutting down")
