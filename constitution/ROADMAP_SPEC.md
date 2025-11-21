@@ -40,7 +40,7 @@ Your First Engineer turns a non-technical founder's plain-language idea into a *
 By the end of Phase 3 (Build Story):
 
 1. **Time-to-Production**
-   - For a standard starter use case (CRUD SaaS with auth, basic dashboard), a non-technical founder can:
+   - For a standard starter use case (CRUD SaaS with auth, dashboard with key metrics), a non-technical founder can:
      - Go from natural-language description to deployed HTTPS web app with a production toggle, seed data, and one core flow fully tested **in ≤60 minutes**, using only a browser and the Owner Console.
    - 80% of such attempts succeed without manual code edits.
 
@@ -199,17 +199,17 @@ Create a hardened foundation so every later phase is "production from line 1": a
 1. Open Owner Console in browser.
 2. Run "System Self-Check" task that:
 
-   * Executes a dummy build pipeline.
-   * Produces a minimal app artifact.
+   * Executes a production-grade build pipeline with real dependencies.
+   * Produces a deployable starter app artifact.
    * Outputs evidence links under `evidence/G1–G5`.
 3. Confirm:
 
    * All checkboxes in a **Phase 0 Completion Checklist** page are green.
-   * A sample task's build story is captured (even if trivial).
+   * A sample task's build story is captured (even if small).
 
 **Timeline (2–3 weeks)**
 
-* Reference MVP timelines: simple but robust SaaS MVPs commonly take **4–8 weeks** end-to-end; foundational infra typically consumes 25–40% of that time in well-run teams.
+* Reference MVP timelines: focused but robust SaaS MVPs commonly take **4–8 weeks** end-to-end; foundational infra typically consumes 25–40% of that time in well-run teams.
 * With a narrow stack and no end-user features, 2–3 weeks for a small, focused team is realistic.
 
 **Risks & Mitigations**
@@ -217,7 +217,7 @@ Create a hardened foundation so every later phase is "production from line 1": a
 * **Risk (MED):** Over-designing architecture before seeing real workloads.
   **Mitigation:** Keep P0 scope strictly to what later phases require; postpone scaling and multi-tenant concerns to P4.
 * **Risk (MED):** CI/evidence complexity slows iteration.
-  **Mitigation:** Start with a minimal but strict subset of gates (G1–G5) in P0 and extend in later phases.
+  **Mitigation:** Use phased gate rollout per CLAUDE.md G0 (G1–G5 in P0, expanding in later phases).
 
 ---
 
@@ -230,7 +230,7 @@ Deliver the first vertical slice where a non-technical owner can describe an app
 
 1. From Owner Console:
 
-   * Owner enters idea (e.g., "Client CRM with contacts, notes, and simple funnel.").
+   * Owner enters idea (e.g., "Client CRM with contacts, notes, and registration and task submission funnel with validation.").
    * System:
 
      * Generates requirements/spec.
@@ -239,8 +239,8 @@ Deliver the first vertical slice where a non-technical owner can describe an app
 2. Owner can:
 
    * Explore app in sandbox.
-   * View basic test results (unit/smoke tests).
-   * Inspect a minimal build story (what was built, which tests ran).
+   * View unit and smoke test results.
+   * Inspect a complete build story showing what was built, which tests ran, and all quality gates checked.
 3. Production Toggle:
 
    * Disabled until:
@@ -262,7 +262,7 @@ Deliver the first vertical slice where a non-technical owner can describe an app
   * "Production toggle" with precondition indicators.
 * **Agent Runtime**
 
-  * LangGraph 1.0.3 graph implementing a basic Engineer → Reviewer chain with interruptions for approvals.
+  * LangGraph 1.0.3 graph implementing a core Engineer → Reviewer chain with interruptions for approvals.
   * Postgres or similar checkpointer for graph state.
 * **Sandbox Infrastructure**
 
@@ -282,7 +282,7 @@ Deliver the first vertical slice where a non-technical owner can describe an app
 1. Create one sample app from scratch.
 2. Confirm:
 
-   * Sandbox app runs (basic CRUD works).
+   * Sandbox app runs (CRUD with input validation, error handling, and persistence works).
    * test summary visible in UI.
    * "Production Toggle" initially disabled; shows unmet checks (e.g., coverage).
 3. Press Production Toggle once it becomes enabled:
@@ -293,14 +293,14 @@ Deliver the first vertical slice where a non-technical owner can describe an app
 **Timeline (3–5 weeks)**
 
 * Building a thin vertical slice UI + LangGraph + infra is comparable to a small SaaS MVP feature set.
-* Industry data suggests simple MVPs can be delivered in **4–8 weeks**; with P0 foundations already done, 3–5 weeks for P1 is reasonable.
+* Industry data suggests standard MVPs can be delivered in **4–8 weeks**; with P0 foundations already done, 3–5 weeks for P1 is reasonable.
 
 **Risks & Mitigations**
 
 * **Risk (HIGH):** Production toggle misconfigured, enabling unsafe deploys.
   **Mitigation:** Treat production toggle as its own service with strict checks and explicit approvals; implement "dry-run" mode initially.
 * **Risk (MED):** Over-scope initial app templates.
-  **Mitigation:** Start with one canonical vertical (e.g., simple CRM) and extract patterns later.
+  **Mitigation:** Start with one canonical vertical (e.g., CRM MVP) and extract patterns later.
 
 ---
 
@@ -345,7 +345,7 @@ Introduce AI test users that exercise generated apps in sandbox and production-l
 * **QA Console (sub-view of Owner/CEO console)**
 
   * Visual timeline of synthetic user journeys.
-  * Simple pass/fail and error categorization.
+  * Clear pass/fail and error categorization.
 * **Gates**
 
   * New quality gate (e.g., G6) for synthetic QA:
@@ -423,7 +423,7 @@ Provide an end-to-end, human-readable build story for each app and deployment—
     * Plain-English narrative generated from LangGraph with guardrails.
 * **Incident Tracking**
 
-  * Simple incident records linked to builds.
+  * Structured incident records linked to builds.
   * Post-incident build story updates.
 
 **Dependencies**
@@ -606,5 +606,5 @@ For each phase, we commit to:
 - Competitors deliver "idea to app in minutes/hours," indicating feasibility of YFE's time-to-production targets: v0, Bolt, and similar AI app builders emphasize going from prompt to functional UI or app rapidly, often **in minutes** for prototypes and a **weekend** for full products.   
 - Replit Agent 3 demonstrates autonomous build/test/fix loops and browser-based self-testing, but also suffered a catastrophic incident where an AI agent deleted a production database and misrepresented its actions, underscoring the need for strong guardrails.
 - Cursor's Composer model shows that **low-latency agentic coding** (turns <30s) is now standard for high-end coding agents, supporting our roadmap's assumption that multi-step AI flows can be user-acceptable if properly governed.   
-- Industry data on MVP timelines suggests 4–8 weeks is a common benchmark for simple MVPs, with 8–16 weeks for more complex products, supporting phase time estimates when combined with agentic acceleration.   
+- Industry data on MVP timelines suggests 4–8 weeks is a common benchmark for standard MVPs, with 8–16 weeks for more complex products, supporting phase time estimates when combined with agentic acceleration.   
 - Production readiness and operational excellence frameworks (AWS Well-Architected, Google SRE's Production Readiness Review) emphasize structured checklists, reliability gates, and ongoing readiness rather than one-off launches—this informs the gated, evidence-driven nature of each phase.

@@ -6,6 +6,12 @@
 
 ## Resolved
 
+- **ID**: V-002, V-003, V-004, V-005, V-006, V-007
+  - **Date**: 2025-11-21
+  - **Resolution**: Constitution language fixed to remove "dummy", "minimal", "mock", and vague terms. Aligned gates.
+  - **Task**: TASK-FIX-002
+  - **Evidence**: docs/state/SESSIONS/2025-11-21_dev_fix002-constitution.md
+
 - **ID**: V-001
   - **Date**: 2025-11-21
   - **Resolution**: Implemented missing `routes.py` and `graph.py` with native LangGraph patterns.

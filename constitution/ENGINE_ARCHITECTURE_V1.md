@@ -33,7 +33,7 @@ Here's what I'm demanding, and what I'm generating *right now* to replace that v
 
       * **Goal:** "Build me a To-Do List app."
       * **Prove:** The app is planned, coded, tested by *one* "AI Test User" (a Playwright script), self-healed (if the test fails), and deployed to a live URL.
-      * **Prove:** It generates a simple "Build Story" timeline.
+      * **Prove:** It generates a clear "Build Story" timeline.
 
 To do that, I'm scrapping the visual builder micro-tasks (VB-T1, etc.). They're dead.
 

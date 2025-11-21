@@ -39,7 +39,7 @@ This is a classic context-loss scenario seen in distributed and fast-growing tea
 
 1. **No Single Source of Truth (SSoT)**: There is no single place to answer “what’s the current state of the project?” Product and engineering literature consistently emphasizes SSoT as critical to avoid misalignment and churn.:contentReference[oaicite:4]{index=4}  
 2. **No explicit “state spine”**: Documentation exists (e.g., COMPLETE_ARCHITECTURE_SPEC.md) but is static, not tied into a living state structure.
-3. **No standardized runbooks**: Each persona improvises their startup sequence, instead of following a simple checklist. Runbooks are widely used in platform and incident management to make complex systems operable by many people.:contentReference[oaicite:5]{index=5}  
+3. **No standardized runbooks**: Each persona improvises their startup sequence, instead of following a standardized checklist. Runbooks are widely used in platform and incident management to make complex systems operable by many people.:contentReference[oaicite:5]{index=5}  
 4. **Unstructured decisions**: Decisions are not recorded as ADRs or similar immutable records, so they are easy to re-open unintentionally.:contentReference[oaicite:6]{index=6}  
 
 ---
@@ -606,7 +606,7 @@ The quality gates (G1–G11) are defined in `constitution/QUALITY_GATES.md` and 
 
 4. **Regression Prevention.**
 
-   * CI can enforce simple checks (conceptual outline; implementation left to Dev/Infra):
+   * CI can enforce foundational checks (conceptual outline; implementation left to Dev/Infra):
 
      * For PRs labeled as “G1: Research”, ensure:
 
@@ -756,14 +756,14 @@ and referenced from `constitution/ROADMAP.md` and `constitution/QUALITY_GATES.md
 ```csv
 filename="evidence/G2/state-management-comparative-matrix.csv"
 OptionID,Category,OptionName,Description,Pros,Cons,RiskLevel,TCO_3yr,Performance,Primary
-ssot_repo,StateModel,Repo as Single Source of Truth,"All project state lives in the code repository: markdown docs + structured JSON under version control.","Maximizes transparency; easy to link to code; offline-capable; simple tooling (Git).","Requires disciplined updates; no rich dashboards by default; some manual overhead.",LOW,LOW,MEDIUM,TRUE
+ssot_repo,StateModel,Repo as Single Source of Truth,"All project state lives in the code repository: markdown docs + structured JSON under version control.","Maximizes transparency; easy to link to code; offline-capable; standard tooling (Git).","Requires disciplined updates; no rich dashboards by default; some manual overhead.",LOW,LOW,MEDIUM,TRUE
 ssot_tool,StateModel,External PM Tool as SSoT,"Use Jira/Linear/Notion as the primary source of truth, with repo docs secondary.","Rich UI and reporting; familiar to many teams; built-in workflows.","Splits state between tool and repo; harder to keep specs/decisions close to code; vendor lock-in.",MEDIUM,MEDIUM,HIGH,FALSE
 ssot_hybrid,StateModel,Hybrid Hub-and-Spoke,"Use repo as authoritative source for decisions and specs; external tools mirror state for planning/visibility.","Allows executive reporting; integrates with existing PM workflows; flexible.","Risk of divergence between repo and tools; requires sync processes.",MEDIUM,MEDIUM,HIGH,FALSE
 decisions_ad_hoc,Decisions,Ad-hoc Decisions,"Decisions scattered across chats, PR comments, and meeting notes.","Zero initial overhead.","High risk of re-litigation; no audit trail; impossible to automate gates.",HIGH,LOW,LOW,FALSE
 decisions_adr,Decisions,ADR-style Decision Records,"Decisions documented as immutable records with explicit status and supersession.","FAANG/open-source proven pattern; strong auditability; easy onboarding via ADRs.","Requires discipline; lightweight process training needed.",LOW,LOW,HIGH,TRUE
 handoff_informal,Handoff,Informal Handoffs,"Rely on ad-hoc messages and memory for role transitions.","Fast in very small teams.","Breaks down with scale; causes Goldfish Memory; high dependency on individuals.",HIGH,LOW,LOW,FALSE
 handoff_protocol,Handoff,Runbook-Driven Handoffs,"Explicit, documented handoff steps and shared living docs for Dev/CEO/Researcher.","Predictable; scalable; reduces context loss; supports distributed teams.","Some perceived overhead; requires habit-building.",LOW,LOW,HIGH,TRUE
-docs_sparse,DocsLevel,Sparse Documentation,"Only minimal docs; lean on code and chat.","Low upfront time.","High onboarding cost; repeated debates; fragile institutional memory.",HIGH,LOW,LOW,FALSE
+docs_sparse,DocsLevel,Sparse Documentation,"Sparse documentation; lean on code and chat.","Low upfront time.","High onboarding cost; repeated debates; fragile institutional memory.",HIGH,LOW,LOW,FALSE
 docs_living,DocsLevel,Living Documentation Spine,"Small set of actively maintained documents (INDEX, CURRENT_TASK, PROGRESS, BLOCKERS, DECISIONS).","High leverage; small footprint; aligns with modern knowledge base best practices.","Requires consistent updates; needs clear ownership per file.",LOW,LOW,HIGH,TRUE
 ````
 

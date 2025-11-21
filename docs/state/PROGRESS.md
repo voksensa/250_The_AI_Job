@@ -1,5 +1,6 @@
 # PROGRESS LOG
 
+- **2025-11-21** – Developer – Completed TASK-FIX-002: Fixed constitution violations (V-002 to V-007). Removed "dummy", "minimal", "mock" language. Aligned gate requirements across ROADMAP and CLAUDE.
 - **2025-11-21** – Developer – Completed TASK-FIX-001: Restored Agent Runtime service (routes.py, graph.py) with native LangGraph patterns. Verified via health check.
 - **2025-11-21** – CEO – Phase 0 §3 complete: All November 2025 tools verified (pytest 9.0.1, mypy 1.18.2, ruff 0.14.6, coverage 7.12.0). Python venv created, all lint/type checks passing.
 - **2025-11-21** – CEO – Tool versions updated: pytest 9.0.x, mypy 1.18.x, ruff, coverage 7.12.x, ESLint 9.39.x, Vitest 4.x per November 2025 standards.

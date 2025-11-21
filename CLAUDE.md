@@ -35,10 +35,17 @@ I enforce quality gates before Owner review. I **CANNOT** approve work - only Ow
 
 ## Quality Gates (G1-G11)
 
-Every deliverable must pass ALL gates. **Detailed standards and thresholds are in:**
+Every deliverable must pass ALL gates applicable to its phase. **Detailed standards and thresholds are in:**
 - **Tool versions & thresholds:** `constitution/NOVEMBER_2025_STANDARDS.md`
 - **Evidence structure:** `constitution/EXECUTION_PROTOCOL_SPEC.md`
 - **Per-gate checklists:** `evidence/.template/G{N}/README.md`
+
+### G0 - Gate Applicability
+- **Phase 0**: Gates G1-G5 (Research, Architecture, Lint, Evidence, Type Safety)
+- **Phase 1**: Gates G1-G7 (adds G6: Builds, G7: Basic Tests)
+- **Phase 2+**: ALL gates G1-G11
+
+Every deliverable must pass ALL gates applicable to its phase.
 
 ### Code Quality (G1-G5)
 - **G1**: Research complete (≥3 sources, documented in `evidence/G1/`)

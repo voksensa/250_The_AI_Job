@@ -116,7 +116,7 @@ Ensure changes align with COMPLETE_ARCHITECTURE_SPEC and don’t introduce ad-ho
 
 **Standards**
 
-- All non-trivial changes (new service, cross-boundary integration, data model change) require:
+- All significant changes (new service, cross-boundary integration, data model change) require:
   - Description of alternatives considered and rationale for chosen approach.
   - Updated diagrams for non-local changes.
 
@@ -264,7 +264,7 @@ Catch end-to-end issues by having AI agents exercise the app in realistic flows 
 ### G7 – Observability & Reliability
 
 **Purpose**  
-Ensure each service is observable and meets basic reliability practices.
+Ensure each service is observable and meets core reliability practices.
 
 **Artifacts**
 

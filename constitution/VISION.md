@@ -23,14 +23,14 @@ We are building **“your first engineer”** for people who can’t code.
   - Plans the app
   - Builds it
   - Tests it
-  - Checks for security and basic performance issues
+  - Checks for security and core performance issues
   - Puts it online
 - You end with **a live product**, not a pile of files.
 
 ### In plain words
 
 - **For:** Non-technical founders, solo entrepreneurs, small business owners.  
-- **Input:** A simple description of the business you want to build.  
+- **Input:** A plain-language description of the business you want to build.  
 - **Output:** A production-ready web app, live on a URL, that real customers can use.
 
 ### What this is NOT
@@ -90,7 +90,7 @@ If something doesn’t support these, we cut it.
 
 **Name:** *Prototype ↔ Production* switch
 
-- One simple toggle:
+- One single toggle:
   - **Prototype mode:**
     - Fast
     - Cheap
@@ -98,8 +98,8 @@ If something doesn’t support these, we cut it.
   - **Production mode:**
     - Runs deep automatic checks
     - Fixes obvious bugs
-    - Checks basic security issues
-    - Checks basic performance issues
+    - Checks critical security issues
+    - Checks core performance issues
     - Only then puts the app live
 
 **Why this matters:**
@@ -145,13 +145,13 @@ If something doesn’t support these, we cut it.
 
 **Name:** *Build Story*
 
-- A simple timeline that tells the story of what happened:
+- A clear timeline that tells the story of what happened:
   1. We understood your idea.
   2. We chose an overall structure.
   3. We created pages and data.
   4. We wrote tests for key flows.
   5. We found and fixed X problems.
-  6. We ran speed and basic security checks.
+  6. We ran speed and essential security checks.
   7. We put it live at this URL.
 
 - Each step:
@@ -225,7 +225,7 @@ Within the first 12–18 months after launch:
 - At least **70%** of apps that go to Production:
   - Stay online
   - Handle real usage
-  - Do not get rolled back due to basic bugs
+  - Do not get rolled back due to critical bugs
 
 - For users, the product becomes:
   - “The default way I start a new online business.”
@@ -245,7 +245,7 @@ We want the default answer to be:
 ## 7. What We Are Building (and Not Building), In One Sentence
 
 - **We are building:**  
-  > *The first consumer product that turns plain-language ideas into production-ready apps, with a simple Production switch, built-in AI test users, and a clear story of what the AI did.*
+  > *The first consumer product that turns plain-language ideas into production-ready apps, with a single Production switch, built-in AI test users, and a clear story of what the AI did.*
 
 - **We are not building:**  
   > *Another dev tool, another code editor, or another prototype-only toy.*

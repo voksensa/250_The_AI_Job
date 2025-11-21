@@ -38,7 +38,7 @@ We're the **first platform where normal people get FAANG-grade apps** from a sin
 
 ### 1. Production Toggle
 **One switch that changes everything:**
-- **Prototype Mode**: Fast, cheap, minimal testing (2-5 minutes)
+- **Prototype Mode**: Fast, essential testing (lint, unit tests, smoke tests) (2-5 minutes)
 - **Production Mode**: Full FAANG pipeline (15-20 minutes)
   - ≥80% test coverage
   - Security scanning (OWASP ASVS)
