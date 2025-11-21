@@ -1,0 +1,40 @@
+
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: yfe-postgres
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: yfe
+      POSTGRES_PASSWORD: yfe_dev_pass
+      POSTGRES_DB: yfe_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U yfe"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  agent-runtime:
+    build:
+      context: ./apps/agent-runtime
+      dockerfile: Dockerfile
+    container_name: yfe-agent-runtime
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://yfe:yfe_dev_pass@postgres:5432/yfe_db
+      ENVIRONMENT: development
+    ports:
+      - "8002:8002"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
