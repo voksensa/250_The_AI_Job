@@ -7,6 +7,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic_settings import BaseSettings
 
+from .api.routes import router as tasks_router
+
 
 class Settings(BaseSettings):
     """Application settings from environment variables."""
@@ -29,9 +31,9 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Lifespan context manager for startup/shutdown events."""
     # Startup
     print(f"🚀 Agent Runtime starting (env={settings.environment})")
-    print(
-        f"📊 Database: {settings.database_url.split('@')[1] if '@' in settings.database_url else 'N/A'}"
-    )
+    db_url = settings.database_url
+    db_host = db_url.split("@")[1] if "@" in db_url else "N/A"
+    print(f"📊 Database: {db_host}")
 
     yield
 
@@ -62,6 +64,5 @@ async def health_check() -> dict[str, str]:
     }
 
 
-from .api.routes import router as tasks_router
-
+# Include API routers
 app.include_router(tasks_router, prefix="/api")
