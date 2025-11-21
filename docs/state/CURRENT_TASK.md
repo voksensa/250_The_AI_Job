@@ -1,30 +1,36 @@
 # CURRENT TASK
 
-- **Task ID**: NONE
-- **Title**: Awaiting Phase 1 Start
-- **Owner**: CEO
-- **Status**: Ready
+- **Task ID**: TASK-003_production-toggle-mvp
+- **Title**: Production Toggle MVP - End-to-End Workflow
+- **Owner**: Developer
+- **Status**: Ready to Start
 - **Related Phase**: Phase 1 – MVP (Production Toggle Proof)
-- **Target Gates**: G1-G11
+- **Target Gates**: G5 (Tests), G6 (Builds), G10 (Owner can use it)
 - **Linked Specs**:
   - [COMPLETE_ARCHITECTURE_SPEC.md](../research/COMPLETE_ARCHITECTURE_SPEC.md)
+  - [VISION.md](../../VISION.md)
 
 ## Objective
 
-Phase 1 is ready to begin. The next task will be defined by the CEO/Owner.
+Build the first end-to-end Production Toggle feature: a simple task submission workflow with both backend (LangGraph) and frontend (Owner Console UI) working together.
 
 ## Definition of Done
 
-N/A
+- [ ] Backend: LangGraph workflow with 3 nodes (planner, coder, responder)
+- [ ] Backend: FastAPI endpoints (`POST /api/tasks`, `GET /api/tasks/{id}`)
+- [ ] Frontend: Task submission form on homepage
+- [ ] Owner can submit task via UI and see response
+- [ ] Tests passing, services healthy
+- [ ] Committed to Git with session log
 
 ## Next Action (Mandatory)
 
-**CEO**: Define the first task of Phase 1 (likely Production Toggle implementation).
+**Developer**: Execute TASK-003 per task file. Implement Phase A (backend) and Phase B (frontend) together.
 
 ## CEO Needs To Decide (Optional)
 
-- Confirm priority of "Production Toggle" vs "LangGraph Workflow".
+None - Owner approved "Phase A + Phase B together" approach.
 
 ## Notes
 
-TASK-001 and TASK-002 complete. Infrastructure is hardened and state system is live.
+Full task details: [docs/state/tasks/TASK-003_production-toggle-mvp.md](./tasks/TASK-003_production-toggle-mvp.md)
