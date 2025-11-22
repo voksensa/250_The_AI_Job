@@ -1,5 +1,7 @@
-from typing import TypedDict, Literal
+from typing import Literal, TypedDict
+
 from langchain_core.messages import BaseMessage
+
 
 class AgentState(TypedDict):
     """State for the agent graph."""

@@ -91,7 +91,8 @@ async def stream_task(websocket: WebSocket, task_id: str):
             # Resume graph execution
             print(f"DEBUG: Resuming graph for task {task_id} with approval")
             inputs = None # Resume with no new inputs, just continue
-            # We might need to update state if we weren't using interrupt_before logic that assumes the node does the work.
+            # We might need to update state if we weren't using interrupt_before logic
+            # that assumes the node does the work.
             # But here, we just want to resume.
             # However, astream(None, config) might not work if it expects inputs?
             # For resuming from interrupt, we usually pass Command or None.

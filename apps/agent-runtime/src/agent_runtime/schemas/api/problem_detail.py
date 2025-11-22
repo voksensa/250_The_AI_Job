@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class ProblemDetail(BaseModel):
     """RFC 9457 Problem Details for HTTP APIs."""
     type: str  # URI reference identifying the problem type
@@ -7,7 +8,7 @@ class ProblemDetail(BaseModel):
     status: int  # HTTP status code
     detail: str  # Explanation specific to this occurrence
     instance: str | None = None  # URI reference to specific occurrence
-    
+
     class Config:
         json_schema_extra = {
             "example": {

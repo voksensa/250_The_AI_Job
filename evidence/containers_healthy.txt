@@ -1,0 +1,4 @@
+CONTAINER ID   IMAGE                          COMMAND                  CREATED             STATUS                       PORTS                                         NAMES
+37cf84f6b34b   250_the_ai_job-agent-runtime   "uvicorn agent_runti…"   14 seconds ago      Up 13 seconds (healthy)      0.0.0.0:8002->8002/tcp, [::]:8002->8002/tcp   yfe-agent-runtime
+5152ef561c97   250_the_ai_job-owner-console   "docker-entrypoint.s…"   About an hour ago   Up About an hour (healthy)   0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp   yfe-owner-console
+47d07cab8dfc   pgvector/pgvector:pg16         "docker-entrypoint.s…"   About an hour ago   Up About an hour (healthy)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp   yfe-postgres
