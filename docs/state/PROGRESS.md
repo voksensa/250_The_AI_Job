@@ -1,6 +1,7 @@
 # PROGRESS LOG
 
-- **2025-11-22** – CEO – Created TASK-P1-002: Production Toggle Switch (Killer Feature #1). Developer assigned to implement quality gate nodes, toggle UI, and Docker verification.
+- **2025-11-22** – CEO – Created TASK-P1-001-ARCH: Architecture compliance remediation. BLOCKS P1-002. Fixes API versioning, error format, file structure to comply with 5 golden rules. LangGraph implementation already correct, no logic changes.
+- **2025-11-22** – CEO – Created TASK-P1-002: Production Toggle Switch (Killer Feature #1). BLOCKED by TASK-P1-001-ARCH.
 
 
 - **2025-11-22** – Developer – Remediated TASK-P1-001: Fixed Docker configuration (added libpq-dev), containerized frontend, verified end-to-end in Docker. All services healthy, Owner Console working.
