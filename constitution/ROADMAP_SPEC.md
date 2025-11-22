@@ -47,7 +47,7 @@ By the end of Phase 3 (Build Story):
 2. **Quality & Safety**
    - All generated apps meet minimum standards:
      - **Code quality:** Lint-clean (no errors, no warnings) for both frontend and backend.
-     - **Testing:** ≥80% line coverage on new or modified backend code; ≥70% on new frontend logic; project-wide baseline ≥60% coverage with a plan to raise thresholds over time.
+     - **Testing:** ≥85% line coverage on new or modified code (backend and frontend); project-wide baseline ≥60% coverage with a plan to raise thresholds over time per GOLDEN_RULES.md.
      - **Incidents:** ≤1 P1 incident per 20 production toggles in the first 30 days, with automatic rollback paths and a captured post-incident build story.
 
 3. **Operator Experience (Owner + CEO)**

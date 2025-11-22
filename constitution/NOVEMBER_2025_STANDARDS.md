@@ -216,14 +216,17 @@ Ensure robust automated tests with meaningful coverage.
 
 **Coverage Thresholds**
 
-- New/changed backend code:
-  - **≥80% line coverage**, with branch coverage where practical.
-- New/changed frontend logic:
-  - **≥70% line coverage**.
-- Overall project:
-  - **≥60% line coverage** initially, with explicit plan to raise toward 80% as the product matures.
+> [!IMPORTANT]
+> These thresholds align with `GOLDEN_RULES.md` Rule 1 (85% MINIMUM).
 
-These values reflect widely cited recommendations where 80% is considered a good general target, with Google’s testing blog citing 60%/75%/90% as acceptable/commendable/exemplary ranges and multiple industry sources converging on ~70–80% as a practical, effective standard.
+- New/changed backend code:
+  - **≥85% line coverage**, with branch coverage where practical.
+- New/changed frontend logic:
+  - **≥85% line coverage**.
+- Overall project:
+  - **≥60% line coverage** initially, with explicit plan to raise toward 85% as the product matures.
+
+Previous industry recommendations cited 60%/75%/90% (Google), but our constitution enforces stricter standards per GOLDEN_RULES.md.
 
 **Automation**
 

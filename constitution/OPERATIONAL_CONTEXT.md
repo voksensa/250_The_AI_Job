@@ -110,9 +110,9 @@ OPERATIONAL_CONTEXT.md  ← This file (navigation)
 - **Port**: 8002
 
 ### Frontend (`apps/owner-console/`)
-- **Framework**: Next.js 15 (App Router)
+- **Framework**: Next.js 16 (App Router)
 - **Language**: TypeScript
-- **Styling**: Tailwind CSS + shadcn/ui
+- **Styling**: Tailwind CSS 4 + shadcn/ui
 - **Testing**: Playwright
 - **Port**: 3030
 
@@ -120,6 +120,7 @@ OPERATIONAL_CONTEXT.md  ← This file (navigation)
 - **Containers**: Docker + Docker Compose
 - **Sandboxes**: `/sandboxes/phase2/`
 - **Generated Apps**: Dynamic ports (9000+)
+- **API Versioning**: All endpoints use `/api/v1/` prefix per ARCHITECTURAL_DECISIONS.md
 
 ---
 
