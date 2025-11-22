@@ -1,5 +1,8 @@
 # PROGRESS LOG
 
+- **2025-11-22** – CEO – Created TASK-P1-002: Production Toggle Switch (Killer Feature #1). Developer assigned to implement quality gate nodes, toggle UI, and Docker verification.
+
+
 - **2025-11-22** – Developer – Remediated TASK-P1-001: Fixed Docker configuration (added libpq-dev), containerized frontend, verified end-to-end in Docker. All services healthy, Owner Console working.
 - **2025-11-21** – Developer – Completed TASK-P1-001: Production Toggle Foundation. Owner can submit tasks via browser UI, see real-time LangGraph processing, and view results. End-to-end flow validated in ≤20 min.
 - **2025-11-21** – Developer – Completed TASK-FIX-002: Fixed constitution violations (V-002 to V-007). Removed "dummy", "minimal", "mock" language. Aligned gate requirements across ROADMAP and CLAUDE.
