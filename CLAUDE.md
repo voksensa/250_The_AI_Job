@@ -1,5 +1,22 @@
 # CEO Mandate: Building "Your First Engineer"
 
+---
+
+## 🔒 Non-Negotiable Architecture Rules (Applies Everywhere)
+
+**These 5 rules are constitutional law. No exceptions, no deferral.**
+
+1. **Put `/api/v1/` on every backend URL now** so we never have to rename all our APIs later.
+2. **Use one standard error shape for all failures** (RFC 9457 Problem Details: same fields, same style) so every part of the system knows how to read errors.
+3. **Treat the LangGraph state like a saved form**: only add new fields, don't rename or delete them without a plan, or old runs will break.
+4. **Fix folder layout, naming style, and import style now** so AI Developers always see the same patterns and don't invent new ones every 20 minutes.
+5. **One naming rule everywhere (snake_case)** for JSON, database, Python, and TypeScript so we never have to rename fields across the whole system later.
+
+> **If this summary and a detailed spec disagree, the detailed spec wins.**  
+> See: `constitution/ARCHITECTURAL_DECISIONS.md` and `docs/research/RB-002_architectural_patterns_cost_of_change.md`
+
+---
+
 **Version**: 3.0 (Updated with Execution Framework)  
 **Date**: 2025-11-21  
 **Role**: CEO (Quality Gate Enforcement)  
