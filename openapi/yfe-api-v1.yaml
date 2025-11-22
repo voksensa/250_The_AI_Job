@@ -1,0 +1,189 @@
+openapi: 3.1.0
+info:
+  title: Your First Engineer (YFE) Agent Runtime API
+  version: 0.1.0
+  description: |
+    API for the Agent Runtime service, responsible for executing LangGraph workflows.
+    
+    ## Core Resources
+    - **Tasks**: Long-running agent workflows (e.g., "Build me an Airbnb clone").
+    
+    ## Authentication
+    - Currently open (internal service).
+    
+    ## Errors
+    - Uses RFC 9457 Problem Details for all 4xx/5xx responses.
+
+servers:
+  - url: http://localhost:8002
+    description: Local Development
+
+paths:
+  /health:
+    get:
+      summary: Health Check
+      description: Returns service status, version, and environment.
+      operationId: healthCheck
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  service:
+                    type: string
+                    example: agent-runtime
+                  version:
+                    type: string
+                    example: 0.1.0
+                  environment:
+                    type: string
+                    example: development
+
+  /api/v1/tasks:
+    post:
+      summary: Create Task
+      description: Starts a new autonomous engineering task.
+      operationId: createTask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskRequest'
+      responses:
+        '200':
+          description: Task started successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+
+  /api/v1/tasks/{task_id}:
+    get:
+      summary: Get Task Status
+      description: Retrieves the current state of a task from the checkpointer.
+      operationId: getTaskStatus
+      parameters:
+        - name: task_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique ID of the task
+      responses:
+        '200':
+          description: Current task state
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Arbitrary LangGraph state values
+        '404':
+          description: Task not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+
+  /api/v1/tasks/{task_id}/stream:
+    get:
+      summary: Stream Task Events (WebSocket)
+      description: |
+        WebSocket endpoint for real-time task updates.
+        
+        **Protocol**:
+        1. Connect to `ws://localhost:8002/api/v1/tasks/{task_id}/stream`
+        2. Server accepts connection.
+        3. Client can send JSON to drive execution (optional).
+        4. Server streams JSON events:
+           - `{"mode": "updates", "payload": {...}}`
+           - `{"mode": "custom", "payload": {...}}`
+      operationId: streamTask
+      parameters:
+        - name: task_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '101':
+          description: Switching Protocols (WebSocket)
+
+components:
+  schemas:
+    TaskRequest:
+      type: object
+      required:
+        - task
+      properties:
+        task:
+          type: string
+          description: Plain-language description of the app to build.
+          example: "Build a todo app with React and FastAPI"
+
+    TaskResponse:
+      type: object
+      required:
+        - task_id
+        - status
+      properties:
+        task_id:
+          type: string
+          format: uuid
+          description: Unique ID for the created task.
+        status:
+          type: string
+          enum: [running]
+          description: Initial status of the task.
+
+    ProblemDetail:
+      type: object
+      description: RFC 9457 Problem Details
+      required:
+        - type
+        - title
+        - status
+        - detail
+      properties:
+        type:
+          type: string
+          format: uri
+          description: URI reference identifying the problem type.
+          example: "https://yfe.app/errors/404"
+        title:
+          type: string
+          description: Short, human-readable summary of the problem type.
+          example: "Task Not Found"
+        status:
+          type: integer
+          description: HTTP status code.
+          example: 404
+        detail:
+          type: string
+          description: Human-readable explanation specific to this occurrence.
+          example: "Task a1b2c3d4 was not found."
+        instance:
+          type: string
+          format: uri
+          description: URI reference to the specific occurrence of the problem.
+          example: "urn:trace:req-123"
