@@ -56,14 +56,56 @@ def create_graph(checkpointer: Any) -> Any:
     # Import nodes here to avoid circular dependency with get_llm
     from .nodes.planning import planner_node
     from .nodes.execution import executor_node
+    from .nodes.gates import lint_gate_node, test_gate_node, production_interrupt_node, production_gate_check, gate_aggregator_node
 
     # Build graph using ONLY patterns from MCP queries
     workflow = StateGraph(AgentState)
     workflow.add_node("planner", planner_node)
     workflow.add_node("executor", executor_node)
+    
+    # Quality Gates
+    workflow.add_node("lint_gate", lint_gate_node)
+    workflow.add_node("test_gate", test_gate_node)
+    workflow.add_node("production_decision", production_interrupt_node)
 
     workflow.add_edge(START, "planner")
     workflow.add_edge("planner", "executor")
-    workflow.add_edge("executor", END)
+    
+    # Fan-out to gates
+    workflow.add_edge("executor", "lint_gate")
+    workflow.add_edge("executor", "test_gate")
+    
+    # Fan-in (implicit? No, we need to join. Or just check state in conditional edge)
+    # LangGraph doesn't have explicit "join" node unless we make one.
+    # But we can just edge from both gates to a dummy node or directly to conditional check?
+    # Conditional edge must start from a node.
+    # We can add a "gate_aggregator" node or just edge from both to "production_decision" via conditional?
+    # Wait, if we fan out, we have parallel execution.
+    # We need to wait for BOTH to finish.
+    # LangGraph waits for all parallel branches to finish before moving to next step if they converge?
+    # Let's add a "gate_check" node that does nothing but serves as synchronization point?
+    # Or we can use the fact that `production_gate_check` is a conditional edge.
+    # We can't put conditional edge on TWO nodes.
+    # So we need a join node.
+    
+    # Fan-in to aggregator
+    workflow.add_node("gate_aggregator", gate_aggregator_node)
+    workflow.add_edge("lint_gate", "gate_aggregator")
+    workflow.add_edge("test_gate", "gate_aggregator")
+    
+    # Conditional edge from aggregator
+    workflow.add_conditional_edges(
+        "gate_aggregator",
+        production_gate_check,
+        {
+            "ready_for_production": "production_decision",
+            "not_ready": "executor" # Loop back to fix
+        }
+    )
+    
+    workflow.add_edge("production_decision", END)
 
-    return workflow.compile(checkpointer=checkpointer)
+    return workflow.compile(
+        checkpointer=checkpointer,
+        interrupt_before=["production_decision"]
+    )

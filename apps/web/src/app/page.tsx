@@ -14,7 +14,16 @@ export default function Home() {
   const [status, setStatus] = useState<string>('idle');
   const [events, setEvents] = useState<EventLog[]>([]);
   const [result, setResult] = useState<string | null>(null);
+
   const [error, setError] = useState<string | null>(null);
+
+  // Production Toggle State
+  const [lintStatus, setLintStatus] = useState<string | null>(null);
+  const [testStatus, setTestStatus] = useState<string | null>(null);
+  const [productionReady, setProductionReady] = useState(false);
+  const [productionEnabled, setProductionEnabled] = useState(false);
+  const [deploymentUrl, setDeploymentUrl] = useState<string | null>(null);
+
   const wsRef = useRef<WebSocket | null>(null);
 
   // MCP Query 3: WebSocket in React/Next.js
@@ -61,14 +70,32 @@ export default function Home() {
 
         // Check for result in the data
         if (parsedData && typeof parsedData === 'object') {
+          // Gate Status Updates
+          if (parsedData.lint_status) setLintStatus(parsedData.lint_status);
+          if (parsedData.test_status) setTestStatus(parsedData.test_status);
+
+          // Production Readiness
+          if (parsedData.production_ready) {
+            setProductionReady(true);
+          }
+
+          // Production Approval/Deployment
+          if (parsedData.production_approved) {
+            setProductionEnabled(true);
+          }
+          if (parsedData.deployment_url) {
+            setDeploymentUrl(parsedData.deployment_url);
+            setStatus('deployed');
+          }
+
           // Adjust based on actual LangGraph event structure
           if (parsedData.result) {
             setResult(parsedData.result);
-            setStatus('completed');
+            if (!parsedData.deployment_url) setStatus('completed');
           }
           if (parsedData.executor && parsedData.executor.result) {
             setResult(parsedData.executor.result);
-            setStatus('completed');
+            if (!parsedData.deployment_url) setStatus('completed');
           }
         }
       } catch (err) {
@@ -100,7 +127,15 @@ export default function Home() {
     setError(null);
     setEvents([]);
     setResult(null);
+
     setTaskId(null);
+
+    // Reset Toggle State
+    setLintStatus(null);
+    setTestStatus(null);
+    setProductionReady(false);
+    setProductionEnabled(false);
+    setDeploymentUrl(null);
 
     try {
       // MCP Query 1: Client-side form submission
@@ -112,6 +147,13 @@ export default function Home() {
       setError(err.message || 'Failed to submit task');
       setStatus('error');
     }
+  };
+
+  const handleToggle = () => {
+    if (!wsRef.current || !productionReady) return;
+    console.log('Approving production deployment...');
+    wsRef.current.send(JSON.stringify({ production_approved: true }));
+    setProductionEnabled(true); // Optimistic update
   };
 
   return (
@@ -171,6 +213,61 @@ export default function Home() {
                       {status.toUpperCase()}
                     </span>
                   </div>
+                </div>
+              </section>
+            )}
+
+
+
+            {/* Production Toggle Switch */}
+            {taskId && (
+              <section className="bg-gray-800 rounded-lg p-6 border border-gray-700 shadow-lg animate-fade-in">
+                <h2 className="text-xl font-semibold mb-4 text-green-400">Production Mode</h2>
+
+                <div className="flex items-center justify-between mb-4">
+                  <div className="text-sm text-gray-300">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className={lintStatus === 'pass' ? 'text-green-400' : 'text-gray-500'}>
+                        {lintStatus === 'pass' ? '✓' : '○'} Lint Check
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className={testStatus === 'pass' ? 'text-green-400' : 'text-gray-500'}>
+                        {testStatus === 'pass' ? '✓' : '○'} Unit Tests
+                      </span>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={handleToggle}
+                    disabled={!productionReady || productionEnabled}
+                    className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-800 ${productionEnabled ? 'bg-blue-600' : productionReady ? 'bg-green-600' : 'bg-gray-600 cursor-not-allowed'
+                      }`}
+                  >
+                    <span
+                      className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${productionEnabled ? 'translate-x-7' : 'translate-x-1'
+                        }`}
+                    />
+                  </button>
+                </div>
+
+                <div className="text-center">
+                  {productionEnabled ? (
+                    deploymentUrl ? (
+                      <div className="bg-blue-900/30 border border-blue-700 rounded p-2">
+                        <p className="text-blue-300 text-sm font-semibold">Production: ENABLED</p>
+                        <a href={deploymentUrl} target="_blank" rel="noopener noreferrer" className="text-blue-400 text-xs hover:underline">
+                          {deploymentUrl}
+                        </a>
+                      </div>
+                    ) : (
+                      <p className="text-blue-300 text-sm animate-pulse">Deploying to production...</p>
+                    )
+                  ) : productionReady ? (
+                    <p className="text-green-400 text-sm">Gates Passed. Ready to Deploy.</p>
+                  ) : (
+                    <p className="text-gray-500 text-sm">Waiting for quality gates...</p>
+                  )}
                 </div>
               </section>
             )}

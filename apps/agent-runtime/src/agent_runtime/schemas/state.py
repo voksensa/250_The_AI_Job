@@ -7,4 +7,8 @@ class AgentState(TypedDict):
     task: str
     plan: str | None
     result: str | None
+    lint_status: str | None  # "pass" | "fail"
+    test_status: str | None  # "pass" | "fail"
+    production_approved: bool | None  # True if approved
+    deployment_url: str | None  # URL of deployed app
     messages: list[BaseMessage]

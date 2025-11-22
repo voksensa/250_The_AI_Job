@@ -4,6 +4,7 @@ import uuid
 from typing import Any
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException, Request, WebSocket
+from fastapi.encoders import jsonable_encoder
 
 from ...schemas.api.tasks import TaskRequest, TaskResponse
 
@@ -78,25 +79,44 @@ async def stream_task(websocket: WebSocket, task_id: str):
         task_input = message.get("task")
 
         # NEW: Add schema_version if starting new task
-        inputs = None if not task_input else {
-            "schema_version": "1",
-            "task": task_input,
-            "messages": []
-        }
+        # NEW: Add schema_version if starting new task
+        inputs = None
+        if task_input:
+             inputs = {
+                "schema_version": "1",
+                "task": task_input,
+                "messages": []
+            }
+        elif message.get("production_approved"):
+            # Resume graph execution
+            print(f"DEBUG: Resuming graph for task {task_id} with approval")
+            inputs = None # Resume with no new inputs, just continue
+            # We might need to update state if we weren't using interrupt_before logic that assumes the node does the work.
+            # But here, we just want to resume.
+            # However, astream(None, config) might not work if it expects inputs?
+            # For resuming from interrupt, we usually pass Command or None.
+            # Let's try passing None.
+            pass
 
-        if inputs:
+        if inputs is not None or message.get("production_approved"):
             async for chunk in graph.astream(
                 inputs,
                 config=config,
                 stream_mode=["updates", "custom"]
             ):
-                # chunk is a tuple or dict depending on mode.
-                # stream_mode=["updates", "custom"] yields different things.
-
-                # We serialize and send
-                # Note: LangGraph chunks might need processing to be JSON serializable
-                await websocket.send_json(str(chunk))
-                # Using str() for safety, ideally json.dumps with default=str
+                # chunk is a tuple (mode, payload) when stream_mode is a list
+                if isinstance(chunk, tuple):
+                    mode, payload = chunk
+                    # Flatten for frontend convenience or send structured
+                    # Frontend expects {lint_status: ...} directly in the payload for custom events
+                    if mode == "custom":
+                        await websocket.send_json(jsonable_encoder(payload))
+                    elif mode == "updates":
+                        # updates payload is {node_name: state_update}
+                        # We might want to send this too
+                        await websocket.send_json(jsonable_encoder(payload))
+                else:
+                    await websocket.send_json(jsonable_encoder(chunk))
 
     except Exception as e:
         await websocket.send_text(f"Error: {str(e)}")
