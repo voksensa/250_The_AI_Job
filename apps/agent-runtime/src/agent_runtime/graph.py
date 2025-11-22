@@ -38,6 +38,7 @@ async def planner_node(state: AgentState) -> dict[str, Any]:
     """Create a plan from task description."""
     writer = get_stream_writer()
     writer({"status": "planning", "message": "Generating plan..."})
+    print(f"DEBUG: Starting planner_node for task: {state['task']}")
 
     # Use real LLM
     # Use real LLM
@@ -48,6 +49,7 @@ async def planner_node(state: AgentState) -> dict[str, Any]:
     ]
 
     response = await llm.ainvoke(messages)
+    print(f"DEBUG: Planner response: {response.content[:100]}...")
     plan = response.content
 
     writer({"status": "planned", "plan": plan})
@@ -57,6 +59,7 @@ async def executor_node(state: AgentState) -> dict[str, Any]:
     """Execute the plan."""
     writer = get_stream_writer()
     writer({"status": "executing", "message": "Executing plan..."})
+    print(f"DEBUG: Starting executor_node with plan: {state['plan'][:100]}...")
 
     # Use real LLM for execution
     # Use real LLM for execution
@@ -67,6 +70,7 @@ async def executor_node(state: AgentState) -> dict[str, Any]:
     ]
 
     response = await llm.ainvoke(messages)
+    print(f"DEBUG: Executor response: {response.content[:100]}...")
     result = response.content
 
     writer({"status": "completed", "result": result})

@@ -36,5 +36,22 @@ services:
       postgres:
         condition: service_healthy
 
+  owner-console:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    container_name: yfe-owner-console
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8002
+    depends_on:
+      - agent-runtime
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
 volumes:
   postgres_data:
