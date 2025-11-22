@@ -4,14 +4,18 @@ from langgraph.config import get_stream_writer
 
 from ...schemas.state import AgentState
 from ...utils.logger import get_logger
+from ...utils.telemetry import get_meter
 
 logger = get_logger(__name__)
+meter = get_meter(__name__)
+node_executions = meter.create_counter("graph_node_executions", description="Graph node executions")
 
 
 async def lint_gate_node(state: AgentState) -> dict[str, Any]:
     """Run lint check (simulated for now)."""
     task_id = state.get("task", "unknown")
     logger.info("gate_execution", node="lint_gate", status="starting", task_id=task_id)
+    node_executions.add(1, {"node_name": "lint_gate", "status": "started"})
     
     writer = get_stream_writer()
     writer({"status": "linting", "message": "Running ruff check..."})
@@ -22,6 +26,7 @@ async def lint_gate_node(state: AgentState) -> dict[str, Any]:
 
     lint_status = "pass"
     logger.info("gate_execution", node="lint_gate", status="complete", lint_status=lint_status, task_id=task_id)
+    node_executions.add(1, {"node_name": "lint_gate", "status": "completed"})
 
     writer({"status": "lint_complete", "lint_status": lint_status})
     return {"lint_status": lint_status}
@@ -30,6 +35,7 @@ async def test_gate_node(state: AgentState) -> dict[str, Any]:
     """Run tests (simulated for now)."""
     task_id = state.get("task", "unknown")
     logger.info("gate_execution", node="test_gate", status="starting", task_id=task_id)
+    node_executions.add(1, {"node_name": "test_gate", "status": "started"})
     
     writer = get_stream_writer()
     writer({"status": "testing", "message": "Running pytest..."})
@@ -39,6 +45,7 @@ async def test_gate_node(state: AgentState) -> dict[str, Any]:
 
     test_status = "pass"
     logger.info("gate_execution", node="test_gate", status="complete", test_status=test_status, task_id=task_id)
+    node_executions.add(1, {"node_name": "test_gate", "status": "completed"})
 
     writer({"status": "test_complete", "test_status": test_status})
     return {"test_status": test_status}

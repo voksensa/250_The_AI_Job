@@ -9,6 +9,14 @@ from fastapi.encoders import jsonable_encoder
 
 from ...schemas.api.tasks import TaskRequest, TaskResponse
 from ...utils.logger import get_logger
+from ...utils.telemetry import get_meter
+
+logger = get_logger(__name__)
+meter = get_meter(__name__)
+
+tasks_created = meter.create_counter("tasks_created_total", description="Total tasks created")
+tasks_completed = meter.create_counter("tasks_completed_total", description="Total tasks completed")
+tasks_failed = meter.create_counter("tasks_failed_total", description="Total tasks failed")
 
 logger = get_logger(__name__)
 
@@ -34,6 +42,8 @@ async def create_task(
 
     background_tasks.add_task(run_graph_background, graph, inputs, config)
 
+    tasks_created.add(1)
+
     return {"task_id": task_id, "status": "running"}
 
 async def run_graph_background(graph: Any, inputs: dict[str, Any], config: dict[str, Any]):
@@ -42,7 +52,9 @@ async def run_graph_background(graph: Any, inputs: dict[str, Any], config: dict[
     try:
         async for _ in graph.astream(inputs, config=config, stream_mode="values"):
             pass
+        tasks_completed.add(1)
     except Exception as e:
+        tasks_failed.add(1)
         logger.error("background_task_failed", task_id=task_id, error=str(e), exc_info=True)
 
 @router.get("/v1/tasks/{task_id}")

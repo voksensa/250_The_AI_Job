@@ -12,7 +12,14 @@ from .api.routers.tasks import router as api_router
 from .graph.graph import create_graph
 from .schemas.api.problem_detail import ProblemDetail
 from .settings import settings
+from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+
+from .api.routers.tasks import router as api_router
+from .graph.graph import create_graph
+from .schemas.api.problem_detail import ProblemDetail
+from .settings import settings
 from .utils.logger import get_logger
+from .utils.telemetry import setup_telemetry
 
 logger = get_logger(__name__)
 
@@ -45,6 +52,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Setup OpenTelemetry & Prometheus
+metrics_app = setup_telemetry()
+app.mount("/metrics", metrics_app)
+
+# Auto-instrument FastAPI (Requests, Latency, Errors)
+FastAPIInstrumentor.instrument_app(app)
 
 
 @app.get("/health")
