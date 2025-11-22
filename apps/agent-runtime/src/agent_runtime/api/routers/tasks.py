@@ -1,4 +1,5 @@
 
+
 import json
 import uuid
 from typing import Any
@@ -7,6 +8,9 @@ from fastapi import APIRouter, BackgroundTasks, HTTPException, Request, WebSocke
 from fastapi.encoders import jsonable_encoder
 
 from ...schemas.api.tasks import TaskRequest, TaskResponse
+from ...utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 router = APIRouter()
 
@@ -34,11 +38,12 @@ async def create_task(
 
 async def run_graph_background(graph: Any, inputs: dict[str, Any], config: dict[str, Any]):
     """Helper to run graph in background."""
+    task_id = config.get("configurable", {}).get("thread_id", "unknown")
     try:
         async for _ in graph.astream(inputs, config=config, stream_mode="values"):
             pass
     except Exception as e:
-        print(f"Error in background task: {e}")
+        logger.error("background_task_failed", task_id=task_id, error=str(e), exc_info=True)
 
 @router.get("/v1/tasks/{task_id}")
 async def get_task_status(request: Request, task_id: str):
@@ -89,7 +94,7 @@ async def stream_task(websocket: WebSocket, task_id: str):
             }
         elif message.get("production_approved"):
             # Resume graph execution
-            print(f"DEBUG: Resuming graph for task {task_id} with approval")
+            logger.info("graph_resume", task_id=task_id, action="production_approved")
             inputs = None # Resume with no new inputs, just continue
             # We might need to update state if we weren't using interrupt_before logic
             # that assumes the node does the work.

@@ -3,46 +3,57 @@ from typing import Any
 from langgraph.config import get_stream_writer
 
 from ...schemas.state import AgentState
+from ...utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 async def lint_gate_node(state: AgentState) -> dict[str, Any]:
     """Run lint check (simulated for now)."""
+    task_id = state.get("task", "unknown")
+    logger.info("gate_execution", node="lint_gate", status="starting", task_id=task_id)
+    
     writer = get_stream_writer()
     writer({"status": "linting", "message": "Running ruff check..."})
-    print("DEBUG: Running lint_gate_node")
 
     # Simulate ruff check
     # In a real scenario, we would run subprocess.run(["ruff", "check", ...])
     # For MVP, we assume it passes if code exists
 
     lint_status = "pass"
+    logger.info("gate_execution", node="lint_gate", status="complete", lint_status=lint_status, task_id=task_id)
 
     writer({"status": "lint_complete", "lint_status": lint_status})
     return {"lint_status": lint_status}
 
 async def test_gate_node(state: AgentState) -> dict[str, Any]:
     """Run tests (simulated for now)."""
+    task_id = state.get("task", "unknown")
+    logger.info("gate_execution", node="test_gate", status="starting", task_id=task_id)
+    
     writer = get_stream_writer()
     writer({"status": "testing", "message": "Running pytest..."})
-    print("DEBUG: Running test_gate_node")
 
     # Simulate pytest
     # In a real scenario, we would run subprocess.run(["pytest", ...])
 
     test_status = "pass"
+    logger.info("gate_execution", node="test_gate", status="complete", test_status=test_status, task_id=task_id)
 
     writer({"status": "test_complete", "test_status": test_status})
     return {"test_status": test_status}
 
 async def production_interrupt_node(state: AgentState) -> dict[str, Any]:
     """Interrupt for production approval."""
+    task_id = state.get("task", "unknown")
+    logger.info("production_approval", node="production_interrupt", status="waiting", task_id=task_id)
+    
     writer = get_stream_writer()
     writer({
         "status": "waiting_for_approval",
         "message": "Quality gates passed. Waiting for production approval.",
         "production_ready": True
     })
-    print("DEBUG: Running production_interrupt_node - PAUSING")
 
     # This node doesn't actually pause execution by itself.
     # The graph configuration `interrupt_before=["production_decision"]` handles the pause.

@@ -12,16 +12,19 @@ from .api.routers.tasks import router as api_router
 from .graph.graph import create_graph
 from .schemas.api.problem_detail import ProblemDetail
 from .settings import settings
+from .utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Lifespan context manager for startup/shutdown events."""
     # Startup
-    print(f"🚀 Agent Runtime starting (env={settings.environment})")
+    logger.info("service_startup", service="agent-runtime", environment=settings.environment)
     db_url = settings.database_url
     db_host = db_url.split("@")[1] if "@" in db_url else "N/A"
-    print(f"📊 Database: {db_host}")
+    logger.info("database_connection", db_host=db_host)
 
     async with AsyncPostgresSaver.from_conn_string(db_url) as checkpointer:
         await checkpointer.setup()
@@ -29,7 +32,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         yield
 
     # Shutdown
-    print("🛑 Agent Runtime shutting down")
+    logger.info("service_shutdown", service="agent-runtime")
 
 
 app = FastAPI(title="Agent Runtime", version="0.1.0", lifespan=lifespan)
