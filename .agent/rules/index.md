@@ -1,5 +1,5 @@
 ---
-trigger: always_on
+trigger: model_decision
 ---
 
 # PROJECT STATE INDEX
@@ -283,5 +283,3 @@ Every roadmap, feature, and process should either support this vision — or be 
 
 ---
 ```
-
-
