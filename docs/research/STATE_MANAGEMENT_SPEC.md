@@ -1,5 +1,4 @@
-````markdown
-filename="/Users/Yousef_1/Downloads/250_The_AI_Job/docs/research/STATE_MANAGEMENT_SPEC.md"
+
 # STATE MANAGEMENT SPECIFICATION
 
 File: docs/research/STATE_MANAGEMENT_SPEC.md  
