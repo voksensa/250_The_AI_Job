@@ -80,37 +80,61 @@ Every deliverable must pass ALL gates applicable to its phase.
 
 ---
 
-### Rule 2: Production from Line 1
+### Rule 2: Production from Line 1 = Docker from Line 1
+
+**CRITICAL: "Production from Line 1" means Docker from Line 1.**
+
 **No:**
 - Stubs ("we'll implement this later")
 - Mocks ("this simulates the real thing")
 - TODOs in committed code
 - Hardcoded secrets
+- **Local execution testing (uvicorn, npm run dev)**
+- **Claims without Docker proof**
 
 **Yes:**
-- Real LLM calls
-- Real Docker execution
-- Real database queries
-- Real environment variables
+- Real LLM calls **in Docker containers**
+- Real Docker execution **from first line of code**
+- Real database queries **in Docker environment**
+- Real environment variables **in Dockerfiles/docker-compose.yml**
+
+**Enforcement:**
+- All testing MUST use `docker-compose up -d`
+- Developer submits: Screenshots of Docker execution, container logs, `docker ps` output
+- CEO verifies: Runs `docker-compose build && docker-compose up -d` before approval
+- **No Docker proof = Automatic rejection, no exceptions**
 
 ---
 
-### Rule 3: Evidence-Based Approval
+### Rule 3: Evidence-Based Approval = Docker Proof Required
 
-**I approve based ONLY on evidence, not trust.**
+**I approve based ONLY on evidence, not trust. Evidence = Docker execution proof.**
 
 Developer submits:
 1. **Task file:** `docs/state/tasks/TASK-{ID}.md`
 2. **Evidence artifacts:** Per `evidence/.template/{GATE}/README.md`
 3. **State updates:** `progress.md`, `blockers.md`, session log
+4. **MANDATORY: Docker execution proof:**
+   - `docker-compose build` success log
+   - `docker ps` showing all containers healthy
+   - Screenshots of running application in browser
+   - `docker logs` excerpts proving real LLM calls
+   - Browser DevTools console screenshots (zero errors)
 
 I verify:
 1. **Evidence exists** for all gates in scope
 2. **Thresholds met** per `NOVEMBER_2025_STANDARDS.md`
 3. **Phase A + B** both delivered
 4. **Owner validation** possible (≤20 min, browser-only)
+5. **DOCKER EXECUTION VERIFIED:**
+   - I run `docker-compose down && docker-compose build && docker-compose up -d`
+   - I verify containers are healthy: `docker ps`
+   - I test endpoints: `curl http://localhost:8002/health`
+   - I open browser to UI and verify it works
+   - **If any step fails, task is REJECTED**
 
-**No evidence = automatic rejection.**
+**No Docker proof = Automatic rejection, no exceptions.**
+**"Code looks good" without Docker execution = Worthless.**
 
 ---
 
@@ -178,6 +202,12 @@ Before declaring "READY FOR OWNER":
 - [ ] Code changes committed to Git with clear messages
 - [ ] Session log in `docs/state/SESSIONS/{DATE}_{ROLE}_{TASK}.md`
 - [ ] State files updated (`progress.md`, `blockers.md`)
+- [ ] **DOCKER EXECUTION PROOF** (MANDATORY):
+  - [ ] `docker-compose build` output showing success
+  - [ ] `docker ps` screenshot showing all containers healthy
+  - [ ] Application screenshots from browser (UI working)
+  - [ ] `docker logs` excerpts proving real LLM calls
+  - [ ] Browser DevTools console screenshot (zero errors)
 
 ### Quality Gates
 - [ ] All G1-G11 in scope **passed** (verify per-gate checklist)

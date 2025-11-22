@@ -22,10 +22,26 @@ The 3 killer features:
 
 ## Core Principles
 
-### 1. Production from Line 1
+### 1. Production from Line 1 = Docker from Line 1
 - No stubs, no mocks, no "TODO: implement later"
-- Real LLM calls, real Docker, real databases
-- If it ships, it works
+- Real LLM calls **in Docker containers**
+- Real Docker execution **from first test**
+- Real databases **in Docker environment**
+- **NEVER test locally with uvicorn/npm - ALWAYS use docker-compose**
+- If it ships, it works **in Docker**
+
+**Testing Protocol:**
+```bash
+# CORRECT - Always use Docker
+docker-compose down
+docker-compose build
+docker-compose up -d
+curl http://localhost:8002/health
+
+# WRONG - Never use local execution
+# uvicorn agent_runtime.main:app --port 8002  ← FORBIDDEN
+# npm run dev  ← FORBIDDEN
+```
 
 ### 2. Non-Technical Owner First
 - Owner must validate every feature in ≤20 min via browser
