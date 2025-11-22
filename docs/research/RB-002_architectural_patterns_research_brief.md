@@ -11,10 +11,10 @@
 
 ## Executive Summary
 
-**Problem**: We are building an AI agent system where developer agents have 15-20 minute memory windows (context resets). We need to identify which architectural patterns MUST be established NOW versus which can be safely deferred to later phases.
+**Problem**: We are building an AI Agent system (LangGraph-based agents for end users). Our development team consists of AI-powered Developers (like Claude) who have 15-20 minute context windows before memory resets. We need to identify which architectural patterns MUST be established NOW versus which can be safely deferred to later phases.
 
 **Why This Matters**: Some architectural decisions (API versioning, error schemas, state structures) become exponentially more expensive to change after code is written because:
-1. Agent memory resets = inconsistent application of patterns
+1. Developer memory resets = inconsistent application of patterns
 2. Breaking changes require refactoring all existing code
 3. Database/state schema changes cascade through entire system
 
@@ -30,14 +30,16 @@
 - **Tech Stack**: 
   - Backend: FastAPI, LangGraph 1.0.3, PostgreSQL
   - Frontend: Next.js 15, React, TypeScript
-  - Agent Memory: 15-20 minute context window (goldfish memory)
+  - Development Team: AI Developers with 15-20 minute context windows (memory resets)
 
 ### Key Constraint
-**Agent Memory Persistence Problem**: Developer agents reset context every 15-20 minutes. Without clear documented patterns, agents will:
+**Developer Memory Persistence Problem**: Developers (AI assistants) reset context every 15-20 minutes. Without clear documented patterns, Developers will:
 - Create inconsistent API endpoints (`/api/tasks` vs `/api/v1/tasks`)
 - Use different error response formats
 - Place files in random locations
 - Mix naming conventions
+
+**Note**: "Agents" refers to our PRODUCT (LangGraph agents). "Developers" refers to our DEVELOPMENT TEAM (AI assistants writing code).
 
 ---
 
@@ -75,7 +77,7 @@
 1. What is the RFC 9457 (Problem Details) standard for HTTP error responses?
 2. Is RFC 9457 the November 2025 industry standard, or is there a newer alternative?
 3. What is the cost of migrating from ad-hoc error responses to standardized format?
-4. Will agent memory resets cause error format drift if not documented strictly?
+4. Will Developer memory resets cause error format drift if not documented strictly?
 
 **Evidence Required**:
 - RFC 9457 specification review
@@ -125,7 +127,7 @@ apps/agent-runtime/src/agent_runtime/
 1. What is the November 2025 standard for Python monorepo package structure?
 2. Where should new LangGraph nodes be placed (`/nodes/`, `/graph/nodes/`, flat)?
 3. What conventions prevent "utility file sprawl" (`utils.py`, `helpers.py`, `common.py`)?
-4. How do large Python projects (Django, FastAPI, Airflow) organize similar structures?
+4. How do large Python projects (Django, FastAPI, Airflow) organize similar structures to reduce Developer confusion?
 
 **Evidence Required**:
 - Python Packaging Authority (PyPA) guidelines
@@ -147,7 +149,7 @@ apps/agent-runtime/src/agent_runtime/
 1. What is the November 2025 standard for JSON API field naming?
 2. Do modern frameworks (FastAPI, Next.js) auto-convert between conventions?
 3. What is the cost of migrating API responses from `camelCase` → `snake_case`?
-4. How do agent memory resets affect consistency if conventions aren't documented?
+4. How do Developer memory resets affect consistency if conventions aren't documented?
 
 **Evidence Required**:
 - Google JSON Style Guide
@@ -169,7 +171,7 @@ from agent_runtime.graph import create_graph  # Absolute
 1. What does PEP 8 recommend for relative vs absolute imports?
 2. Do modern type checkers (mypy, Pyright) prefer one style?
 3. What is the refactoring cost of standardizing imports later?
-4. Does mixing styles cause agent confusion in larger codebases?
+4. Does mixing styles cause Developer confusion in larger codebases?
 
 **Evidence Required**:
 - PEP 8 official guidelines
@@ -225,8 +227,8 @@ For each research question, provide:
    - All sources must be current as of Nov 2025 or explicitly noted as "stable standard"
    - Deprecated/outdated practices must be flagged
 
-4. **Agent Memory Context**:
-   - Explicitly address: "Does pattern X prevent agent confusion with 15-20min memory?"
+4. **Developer Memory Context**:
+   - Explicitly address: "Does pattern X prevent Developer confusion with 15-20min memory resets?"
    - Provide clear yes/no answer with justification
 
 ---
@@ -251,8 +253,8 @@ For each research question, provide:
 - [Example]: [Real-world case]
 ### November 2025 Best Practice:
 [Clear statement of current standard]
-### Agent Memory Impact:
-[How pattern prevents agent confusion]
+### Developer Memory Impact:
+[How pattern prevents Developer confusion given 15-20min context resets]
 ### CEO Hypothesis Validation:
 [VALIDATED | REFUTED | PARTIALLY VALIDATED]
 
@@ -312,7 +314,7 @@ For each research question, provide:
 - Defer too late → 10-100x refactoring cost, broken production
 
 **If we rely on unvalidated findings**:
-- Agent applies inconsistent patterns
+- Developers apply inconsistent patterns across sessions
 - Technical debt accumulates exponentially
 - Phase 2+ delivery blocked by Phase 1 refactoring
 
