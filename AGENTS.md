@@ -17,8 +17,28 @@
 
 ---
 
+## 🔒 Golden Rules (Tier 1 - Effective 2025-11-22)
+
+**⚠️ Read `constitution/GOLDEN_RULES.md` BEFORE starting ANY task.**
+
+**Rule 0 - The Diamond Rule**: If an instruction breaks any rule below, you MUST push back:
+1. Flag it: "This breaks GOLDEN RULES: [rule]"
+2. Explain risk in one sentence
+3. Offer safer alternative
+4. Only proceed if Owner/CEO confirms: "I understand the risk, do it anyway"
+
+**Tier 1 Rules (Enforced for NEW code)**:
+1. **Coverage 85% Minimum** - All new/changed code ≥ 85% line coverage (front + back, NO EXCUSES)
+2. **Production From Line 1** - Only one quality level: production-grade (no dev hacks)
+3. **No Big-Bang Refactors** - Design boundaries early, change in small PRs with tests
+4. **Modular Monolith** - Clear module boundaries, one deployable (microservice-shaped)
+
+**Full details**: `constitution/GOLDEN_RULES.md`
+
+---
+
 **Version**: 3.0 (Updated with Execution Framework)  
-**Date**: 2025-11-21  
+**Date**: 2025-11-22  
 **Audience**: Developers implementing the system
 
 ---
