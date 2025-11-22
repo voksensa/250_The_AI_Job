@@ -4,18 +4,12 @@ import uuid
 from typing import Any
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException, Request, WebSocket
-from pydantic import BaseModel
+
+from ...schemas.api.tasks import TaskRequest, TaskResponse
 
 router = APIRouter()
 
-class TaskRequest(BaseModel):
-    task: str
-
-class TaskResponse(BaseModel):
-    task_id: str
-    status: str
-
-@router.post("/tasks", response_model=TaskResponse)
+@router.post("/v1/tasks", response_model=TaskResponse)
 async def create_task(
     request: Request,
     task_request: TaskRequest,
@@ -26,7 +20,12 @@ async def create_task(
     graph = request.app.state.graph
 
     config = {"configurable": {"thread_id": task_id}}
-    inputs = {"task": task_request.task, "messages": []}
+    # NEW: Add schema_version
+    inputs = {
+        "schema_version": "1",
+        "task": task_request.task,
+        "messages": []
+    }
 
     background_tasks.add_task(run_graph_background, graph, inputs, config)
 
@@ -40,20 +39,23 @@ async def run_graph_background(graph: Any, inputs: dict[str, Any], config: dict[
     except Exception as e:
         print(f"Error in background task: {e}")
 
-@router.get("/tasks/{task_id}")
+@router.get("/v1/tasks/{task_id}")
 async def get_task_status(request: Request, task_id: str):
     """Get current task state from checkpointer."""
     graph = request.app.state.graph
     config = {"configurable": {"thread_id": task_id}}
     try:
         state = await graph.aget_state(config)
-        if not state:
+        if not state.values:
             raise HTTPException(status_code=404, detail="Task not found")
         return state.values
+    except HTTPException:
+        raise
     except Exception as e:
+        # This will be caught by the global exception handler and converted to RFC 9457
         raise HTTPException(status_code=500, detail=str(e)) from e
 
-@router.websocket("/tasks/{task_id}/stream")
+@router.websocket("/v1/tasks/{task_id}/stream")
 async def stream_task(websocket: WebSocket, task_id: str):
     """Stream real-time task execution events."""
     await websocket.accept()
@@ -75,7 +77,12 @@ async def stream_task(websocket: WebSocket, task_id: str):
         message = json.loads(data)
         task_input = message.get("task")
 
-        inputs = None if not task_input else {"task": task_input, "messages": []}
+        # NEW: Add schema_version if starting new task
+        inputs = None if not task_input else {
+            "schema_version": "1",
+            "task": task_input,
+            "messages": []
+        }
 
         if inputs:
             async for chunk in graph.astream(

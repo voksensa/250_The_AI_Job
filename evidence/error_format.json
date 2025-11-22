@@ -1,0 +1,7 @@
+{
+  "type": "https://yfe.app/errors/404",
+  "title": "Task not found",
+  "status": 404,
+  "detail": "Task not found",
+  "instance": "urn:trace:/api/v1/tasks/nonexistent"
+}

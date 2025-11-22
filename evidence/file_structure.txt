@@ -1,0 +1,25 @@
+apps/agent-runtime/src/agent_runtime/
+├── __init__.py
+├── api
+│   ├── __init__.py
+│   └── routers
+│       ├── __init__.py
+│       └── tasks.py
+├── graph
+│   ├── __init__.py
+│   ├── graph.py
+│   └── nodes
+│       ├── __init__.py
+│       ├── execution.py
+│       └── planning.py
+├── main.py
+├── schemas
+│   ├── __init__.py
+│   ├── api
+│   │   ├── __init__.py
+│   │   ├── problem_detail.py
+│   │   └── tasks.py
+│   └── state.py
+└── settings.py
+
+7 directories, 16 files

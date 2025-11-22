@@ -21,7 +21,7 @@ export default function Home() {
   useEffect(() => {
     if (!taskId) return;
 
-    const wsUrl = `ws://localhost:8002/api/tasks/${taskId}/stream`;
+    const wsUrl = `ws://localhost:8002/api/v1/tasks/${taskId}/stream`;
     console.log(`Connecting to WebSocket: ${wsUrl}`);
 
     const ws = new WebSocket(wsUrl);
@@ -145,8 +145,8 @@ export default function Home() {
                   type="submit"
                   disabled={status === 'submitting' || status === 'running' || !task.trim()}
                   className={`w-full py-2 px-4 rounded-md font-medium transition-colors ${status === 'submitting' || status === 'running'
-                      ? 'bg-gray-600 cursor-not-allowed text-gray-400'
-                      : 'bg-blue-600 hover:bg-blue-700 text-white'
+                    ? 'bg-gray-600 cursor-not-allowed text-gray-400'
+                    : 'bg-blue-600 hover:bg-blue-700 text-white'
                     }`}
                 >
                   {status === 'submitting' ? 'Submitting...' : status === 'running' ? 'Processing...' : 'Start Building'}
@@ -165,8 +165,8 @@ export default function Home() {
                   <div className="flex justify-between">
                     <span className="text-gray-400">State:</span>
                     <span className={`font-medium ${status === 'completed' ? 'text-green-400' :
-                        status === 'error' ? 'text-red-400' :
-                          'text-yellow-400'
+                      status === 'error' ? 'text-red-400' :
+                        'text-yellow-400'
                       }`}>
                       {status.toUpperCase()}
                     </span>

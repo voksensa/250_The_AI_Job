@@ -6,7 +6,7 @@ export interface TaskResponse {
 const API_BASE_URL = 'http://localhost:8002';
 
 export async function submitTask(description: string): Promise<TaskResponse> {
-    const response = await fetch(`${API_BASE_URL}/api/tasks`, {
+    const response = await fetch(`${API_BASE_URL}/api/v1/tasks`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
