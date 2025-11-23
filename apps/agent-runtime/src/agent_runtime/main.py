@@ -7,11 +7,6 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
-
-from .api.routers.tasks import router as api_router
-from .graph.graph import create_graph
-from .schemas.api.problem_detail import ProblemDetail
-from .settings import settings
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 
 from .api.routers.tasks import router as api_router

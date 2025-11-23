@@ -18,7 +18,7 @@ async def planner_node(state: AgentState) -> dict[str, Any]:
     task_id = state.get("task", "unknown")
     logger.info("node_execution", node="planner", status="starting", task_id=task_id)
     node_executions.add(1, {"node_name": "planner", "status": "started"})
-    
+
     writer = get_stream_writer()
     writer({"status": "planning", "message": "Generating plan..."})
 
@@ -31,7 +31,13 @@ async def planner_node(state: AgentState) -> dict[str, Any]:
 
     response = await llm.ainvoke(messages)
     plan = response.content
-    logger.info("node_execution", node="planner", status="complete", plan_length=len(plan), task_id=task_id)
+    logger.info(
+        "node_execution",
+        node="planner",
+        status="complete",
+        plan_length=len(plan),
+        task_id=task_id
+    )
     node_executions.add(1, {"node_name": "planner", "status": "completed"})
 
     writer({"status": "planned", "plan": plan})

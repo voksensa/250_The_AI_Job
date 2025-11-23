@@ -13,4 +13,11 @@ class AgentState(TypedDict):
     test_status: str | None  # "pass" | "fail"
     production_approved: bool | None  # True if approved
     deployment_url: str | None  # URL of deployed app
+
+    # Synthetic QA Fields
+    test_plan: dict | None
+    test_results: dict | None
+    tests_passed: bool | None
+    test_report: str | None
+
     messages: list[BaseMessage]

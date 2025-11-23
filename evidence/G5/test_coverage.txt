@@ -1,0 +1,51 @@
+/Users/Yousef_1/.pyenv/versions/3.13.1/lib/python3.13/site-packages/pytest_asyncio/plugin.py:247: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+============================= test session starts ==============================
+platform darwin -- Python 3.13.1, pytest-8.3.3, pluggy-1.6.0
+rootdir: /Users/Yousef_1/Downloads/250_The_AI_Job/apps/agent-runtime
+configfile: pyproject.toml
+plugins: schemathesis-4.1.4, hypothesis-6.138.14, subtests-0.14.2, cov-5.0.0, anyio-4.11.0, asyncio-1.3.0, mock-3.12.0, langsmith-0.4.21
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 3 items
+
+tests/test_synthetic_qa.py ...                                           [100%]
+
+=============================== warnings summary ===============================
+../../../../.pyenv/versions/3.13.1/lib/python3.13/site-packages/pydantic/_internal/_config.py:291
+  /Users/Yousef_1/.pyenv/versions/3.13.1/lib/python3.13/site-packages/pydantic/_internal/_config.py:291: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+
+---------- coverage: platform darwin, python 3.13.1-final-0 ----------
+Name                                              Stmts   Miss  Cover
+---------------------------------------------------------------------
+src/agent_runtime/__init__.py                         1      0   100%
+src/agent_runtime/api/__init__.py                     0      0   100%
+src/agent_runtime/api/routers/__init__.py             0      0   100%
+src/agent_runtime/api/routers/tasks.py               74     74     0%
+src/agent_runtime/graph/__init__.py                   0      0   100%
+src/agent_runtime/graph/graph.py                     40     31    22%
+src/agent_runtime/graph/nodes/__init__.py             0      0   100%
+src/agent_runtime/graph/nodes/execution.py           35     35     0%
+src/agent_runtime/graph/nodes/gates.py               50     50     0%
+src/agent_runtime/graph/nodes/planning.py            24     24     0%
+src/agent_runtime/graph/nodes/test_evaluator.py      43      8    81%
+src/agent_runtime/graph/nodes/test_executor.py       91     40    56%
+src/agent_runtime/graph/nodes/test_planner.py        38      6    84%
+src/agent_runtime/main.py                            38     38     0%
+src/agent_runtime/schemas/__init__.py                 0      0   100%
+src/agent_runtime/schemas/api/__init__.py             0      0   100%
+src/agent_runtime/schemas/api/problem_detail.py       9      9     0%
+src/agent_runtime/schemas/api/tasks.py                6      6     0%
+src/agent_runtime/schemas/state.py                   16      0   100%
+src/agent_runtime/settings.py                        12      0   100%
+src/agent_runtime/utils/__init__.py                   0      0   100%
+src/agent_runtime/utils/logger.py                     5      0   100%
+src/agent_runtime/utils/telemetry.py                 14      5    64%
+---------------------------------------------------------------------
+TOTAL                                               496    326    34%
+
+========================= 3 passed, 1 warning in 3.80s =========================

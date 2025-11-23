@@ -1,5 +1,9 @@
 # PROGRESS LOG
 
+- **2025-11-23** – CEO – ✅ APPROVED P2-005 Phase B (Backend): Coverage 96%/100%/95% (all >85%). Docker verified (12 tests pass, Playwright screenshot). Developer authorized for Phase C (Frontend UI).
+- **2025-11-23** – Developer – ✅ REMEDIATED P2-005 Phase B: Fixed coverage violations (96%/100%/95%), added legacy tests, Docker Playwright verified. Evidence: `test_coverage_remediation.txt`, screenshot in Docker.
+- **2025-11-23** – CEO – ✅ APPROVED P2-005 Phase A (G1): PlayWrightBrowserToolkit verified. Custom screenshot tool approved (native gap). Developer authorized for Phase B (Backend Implementation).
+- **2025-11-23** – Developer – ✅ COMPLETED P2-005 Phase A (G1 Research): POC successful with PlayWrightBrowserToolkit. Native approach confirmed. Evidence: `evidence/G1/native_research.md`.
 - **2025-11-23** – CEO – 📋 CREATED TASK-P2-005-SYNTHETIC-QA-FOUNDATION: Synthetic User QA engine (MVP). NATIVE FIRST mandate enforced. LangGraph capabilities verified via MCP (Playwright, interrupt, checkpointing, streaming).
 - **2025-11-22** – Developer – ✅ COMPLETED TASK-P2-002-OPENAPI: Created `openapi/yfe-api-v1.yaml` documenting 4 routes (health, create task, get task, stream). RFC 9457 errors included.
 - **2025-11-22** – Developer – ✅ COMPLETED TASK-P2-001-CONST-AUDIT + EXECUTE: Archived 2 files, updated 3 files to 85% coverage + Next.js 16 + Tailwind 4. Constitutional foundation clean.

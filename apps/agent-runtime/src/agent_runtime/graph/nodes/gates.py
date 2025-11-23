@@ -16,7 +16,7 @@ async def lint_gate_node(state: AgentState) -> dict[str, Any]:
     task_id = state.get("task", "unknown")
     logger.info("gate_execution", node="lint_gate", status="starting", task_id=task_id)
     node_executions.add(1, {"node_name": "lint_gate", "status": "started"})
-    
+
     writer = get_stream_writer()
     writer({"status": "linting", "message": "Running ruff check..."})
 
@@ -25,7 +25,13 @@ async def lint_gate_node(state: AgentState) -> dict[str, Any]:
     # For MVP, we assume it passes if code exists
 
     lint_status = "pass"
-    logger.info("gate_execution", node="lint_gate", status="complete", lint_status=lint_status, task_id=task_id)
+    logger.info(
+        "gate_execution",
+        node="lint_gate",
+        status="complete",
+        lint_status=lint_status,
+        task_id=task_id
+    )
     node_executions.add(1, {"node_name": "lint_gate", "status": "completed"})
 
     writer({"status": "lint_complete", "lint_status": lint_status})
@@ -36,7 +42,7 @@ async def test_gate_node(state: AgentState) -> dict[str, Any]:
     task_id = state.get("task", "unknown")
     logger.info("gate_execution", node="test_gate", status="starting", task_id=task_id)
     node_executions.add(1, {"node_name": "test_gate", "status": "started"})
-    
+
     writer = get_stream_writer()
     writer({"status": "testing", "message": "Running pytest..."})
 
@@ -44,7 +50,13 @@ async def test_gate_node(state: AgentState) -> dict[str, Any]:
     # In a real scenario, we would run subprocess.run(["pytest", ...])
 
     test_status = "pass"
-    logger.info("gate_execution", node="test_gate", status="complete", test_status=test_status, task_id=task_id)
+    logger.info(
+        "gate_execution",
+        node="test_gate",
+        status="complete",
+        test_status=test_status,
+        task_id=task_id
+    )
     node_executions.add(1, {"node_name": "test_gate", "status": "completed"})
 
     writer({"status": "test_complete", "test_status": test_status})
@@ -53,8 +65,13 @@ async def test_gate_node(state: AgentState) -> dict[str, Any]:
 async def production_interrupt_node(state: AgentState) -> dict[str, Any]:
     """Interrupt for production approval."""
     task_id = state.get("task", "unknown")
-    logger.info("production_approval", node="production_interrupt", status="waiting", task_id=task_id)
-    
+    logger.info(
+        "production_approval",
+        node="production_interrupt",
+        status="waiting",
+        task_id=task_id
+    )
+
     writer = get_stream_writer()
     writer({
         "status": "waiting_for_approval",

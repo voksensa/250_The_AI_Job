@@ -69,6 +69,9 @@ def create_graph(checkpointer: Any) -> Any:
         test_gate_node,
     )
     from .nodes.planning import planner_node
+    from .nodes.test_evaluator import test_evaluator_node
+    from .nodes.test_executor import test_executor_node
+    from .nodes.test_planner import test_planner_node
 
     # Build graph using ONLY patterns from MCP queries
     workflow = StateGraph(AgentState)
@@ -80,6 +83,11 @@ def create_graph(checkpointer: Any) -> Any:
     workflow.add_node("test_gate", test_gate_node)
     workflow.add_node("production_decision", production_interrupt_node)
 
+    # Synthetic QA Nodes
+    workflow.add_node("test_planner", test_planner_node)
+    workflow.add_node("test_executor", test_executor_node)
+    workflow.add_node("test_evaluator", test_evaluator_node)
+
     workflow.add_edge(START, "planner")
     workflow.add_edge("planner", "executor")
 
@@ -87,33 +95,33 @@ def create_graph(checkpointer: Any) -> Any:
     workflow.add_edge("executor", "lint_gate")
     workflow.add_edge("executor", "test_gate")
 
-    # Fan-in (implicit? No, we need to join. Or just check state in conditional edge)
-    # LangGraph doesn't have explicit "join" node unless we make one.
-    # But we can just edge from both gates to a dummy node or directly to conditional check?
-    # Conditional edge must start from a node.
-    # We can add a "gate_aggregator" node or just edge from both to "production_decision"
-    # via conditional?
-    # Wait, if we fan out, we have parallel execution.
-    # We need to wait for BOTH to finish.
-    # LangGraph waits for all parallel branches to finish before moving to next step
-    # if they converge?
-    # Let's add a "gate_check" node that does nothing but serves as synchronization point?
-    # Or we can use the fact that `production_gate_check` is a conditional edge.
-    # We can't put conditional edge on TWO nodes.
-    # So we need a join node.
-
     # Fan-in to aggregator
     workflow.add_node("gate_aggregator", gate_aggregator_node)
     workflow.add_edge("lint_gate", "gate_aggregator")
     workflow.add_edge("test_gate", "gate_aggregator")
 
     # Conditional edge from aggregator
+    # If ready for production, proceed to Synthetic QA instead of direct decision
     workflow.add_conditional_edges(
         "gate_aggregator",
         production_gate_check,
         {
-            "ready_for_production": "production_decision",
+            "ready_for_production": "test_planner", # Proceed to Synthetic QA
             "not_ready": "executor" # Loop back to fix
+        }
+    )
+
+    # Synthetic QA Flow
+    workflow.add_edge("test_planner", "test_executor")
+    workflow.add_edge("test_executor", "test_evaluator")
+
+    # Conditional edge from Synthetic QA Evaluator
+    workflow.add_conditional_edges(
+        "test_evaluator",
+        lambda state: "approve" if state.get("tests_passed") else "fail",
+        {
+            "approve": "production_decision",
+            "fail": "executor" # Loop back to fix if QA fails
         }
     )
 

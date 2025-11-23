@@ -11,7 +11,7 @@ from ..settings import settings
 
 def setup_telemetry(app_name: str = "agent-runtime"):
     """Configure OpenTelemetry with Prometheus exporter.
-    
+
     Returns:
         ASGI app serving metrics at /metrics
     """
@@ -26,7 +26,7 @@ def setup_telemetry(app_name: str = "agent-runtime"):
     reader = PrometheusMetricReader()
     provider = MeterProvider(resource=resource, metric_readers=[reader])
     metrics.set_meter_provider(provider)
-    
+
     # Create ASGI app for /metrics
     return make_asgi_app()
 

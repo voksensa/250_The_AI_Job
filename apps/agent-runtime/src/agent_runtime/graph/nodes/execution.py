@@ -18,7 +18,7 @@ async def executor_node(state: AgentState) -> dict[str, Any]:
     task_id = state.get("task", "unknown")
     logger.info("node_execution", node="executor", status="starting", task_id=task_id)
     node_executions.add(1, {"node_name": "executor", "status": "started"})
-    
+
     writer = get_stream_writer()
     writer({"status": "executing", "message": "Executing plan..."})
 
@@ -32,7 +32,7 @@ async def executor_node(state: AgentState) -> dict[str, Any]:
     try:
         # Use real LLM for execution
         llm = get_llm()
-        
+
         prompt_message = HumanMessage(
             content=f"Execute this plan:\n\n{plan}\n\nProvide implementation details."
         )
@@ -40,12 +40,24 @@ async def executor_node(state: AgentState) -> dict[str, Any]:
 
         response = await llm.ainvoke(messages)
         result = response.content
-        logger.info("node_execution", node="executor", status="complete", result_length=len(result), task_id=task_id)
+        logger.info(
+            "node_execution",
+            node="executor",
+            status="complete",
+            result_length=len(result),
+            task_id=task_id
+        )
         node_executions.add(1, {"node_name": "executor", "status": "completed"})
 
         writer({"status": "completed", "result": result})
         return {"result": str(result), "messages": [response]}
     except Exception as e:
-        logger.error("execution_error", node="executor", error=str(e), task_id=task_id, exc_info=True)
+        logger.error(
+            "execution_error",
+            node="executor",
+            error=str(e),
+            task_id=task_id,
+            exc_info=True
+        )
         node_executions.add(1, {"node_name": "executor", "status": "failed"})
         raise
