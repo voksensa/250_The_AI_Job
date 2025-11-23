@@ -7,6 +7,9 @@ from pydantic import SecretStr
 
 from ..schemas.state import AgentState
 from ..settings import settings
+from ..utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 # Import nodes inside create_graph or here if circular deps not an issue.
 # The nodes import get_llm from here, so we might have a circular dependency

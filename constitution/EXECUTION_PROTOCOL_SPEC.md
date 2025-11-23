@@ -1,5 +1,10 @@
 # EXECUTION PROTOCOL SPECIFICATION
 
+> **Authority Note (2025-11-23):**  
+> This document is now a **reference** for detailed checklists and examples.  
+> The canonical description of how work is executed and how state is tracked is `constitution/PROCESS.md`.  
+> If this file and `PROCESS.md` disagree, `PROCESS.md` wins; update this file instead of ignoring the process.
+
 ## Executive Summary
 
 This specification defines how any developer executes tasks for “Your First Engineer” with zero ambiguity and how CEOs verify quality via evidence instead of trust. It standardizes pre-work, implementation, testing, evidence capture, and handoff steps, and it defines a canonical evidence directory structure tied to quality gates G1–G11. The goal is to make every task reproducible, auditable, and automatable.

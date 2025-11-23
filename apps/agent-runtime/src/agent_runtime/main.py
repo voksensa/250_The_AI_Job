@@ -9,6 +9,8 @@ from fastapi.responses import JSONResponse
 from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 
+from .api.routers.artifacts import router as artifacts_router
+from .api.routers.screenshots import router as screenshots_router
 from .api.routers.tasks import router as api_router
 from .graph.graph import create_graph
 from .schemas.api.problem_detail import ProblemDetail
@@ -84,3 +86,5 @@ async def http_exception_handler(request: Request, exc: HTTPException):
 
 # Include API router
 app.include_router(api_router, prefix="/api")
+app.include_router(screenshots_router, prefix="/api/v1/screenshots")
+app.include_router(artifacts_router, prefix="/api")

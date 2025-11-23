@@ -42,7 +42,7 @@ By the end of Phase 3 (Build Story):
 1. **Time-to-Production**
    - For a standard starter use case (CRUD SaaS with auth, dashboard with key metrics), a non-technical founder can:
      - Go from natural-language description to deployed HTTPS web app with a production toggle, seed data, and one core flow fully tested **in ≤60 minutes**, using only a browser and the Owner Console.
-   - 80% of such attempts succeed without manual code edits.
+   - 85% of such attempts succeed without manual code edits.
 
 2. **Quality & Safety**
    - All generated apps meet minimum standards:

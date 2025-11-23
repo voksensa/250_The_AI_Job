@@ -36,6 +36,7 @@ async def create_task(
     # NEW: Add schema_version
     inputs = {
         "schema_version": "1",
+        "task_id": task_id,
         "task": task_request.task,
         "messages": []
     }

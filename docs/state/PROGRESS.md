@@ -1,5 +1,13 @@
 # PROGRESS LOG
 
+- **2025-11-23** – Codex – ✅ CONST_AUDIT – Audited and refactored constitution/state files per Zero-Trust Diamond model; see `docs/state/reports/CONST_AUDIT_2025-11-23.md`.
+- **2025-11-23** – Developer – ✅ COMPLETED CONST_MERGE_PLAN execution: coverage refs aligned to 85% (NOVEMBER_2025_STANDARDS, ROADMAP_SPEC), enforcement note added to ARCHITECTURAL_DECISIONS, CLAUDE/AGENTS slimmed to protocols, OPERATIONAL_CONTEXT + state spine (INDEX/CURRENT_TASK/BLOCKERS) refreshed.
+- **2025-11-23** – CEO – ❌ REJECTED TASK-P1-002-FIX: File generation works (93% coverage ✅), but DEPLOYMENT PIPELINE MISSING. QA fails 80% (tries to test file:// URLs instead of deployed apps). Blocking: Need TASK-P1-003-DEPLOYMENT for sandbox hosting.
+- **2025-11-23** – Developer – ⚠️ PARTIAL SUCCESS P1-002-FIX: Executor creates real files (`hello.py` in `/workspace/`), download API works, FileTree UI integrated. Evidence: 93% coverage, Docker proof. But Synthetic QA broken - no deployment layer.
+- **2025-11-23** – CEO – ✅ APPROVED Graph Execution Fix: Root causes (missing Playwright browsers, beautifulsoup4, screenshots field) identified and fixed. Logs confirm test_executor/evaluator now execute. Ready for Owner retest.
+- **2025-11-23** – Developer – ✅ FIXED Graph Execution: Added Playwright browsers to Dockerfile, beautifulsoup4 to deps, screenshots to AgentState. Full execution verified in logs.
+- **2025-11-23** – CEO – ✅ APPROVED P2-005 Phase C (Frontend UI): Screenshot API endpoint production-grade. QA results component rendering. Docker E2E verified. Evidence: `evidence/G10/docker_e2e_test.md`. Ready for Owner validation.
+- **2025-11-23** – Developer – ✅ REMEDIATED P2-005 Phase C: Implemented `/api/v1/screenshots` endpoint. Updated frontend to fetch images via API. Docker E2E test passed with proof screenshot.
 - **2025-11-23** – CEO – ✅ APPROVED P2-005 Phase B (Backend): Coverage 96%/100%/95% (all >85%). Docker verified (12 tests pass, Playwright screenshot). Developer authorized for Phase C (Frontend UI).
 - **2025-11-23** – Developer – ✅ REMEDIATED P2-005 Phase B: Fixed coverage violations (96%/100%/95%), added legacy tests, Docker Playwright verified. Evidence: `test_coverage_remediation.txt`, screenshot in Docker.
 - **2025-11-23** – CEO – ✅ APPROVED P2-005 Phase A (G1): PlayWrightBrowserToolkit verified. Custom screenshot tool approved (native gap). Developer authorized for Phase B (Backend Implementation).
@@ -17,11 +25,8 @@
 - **2025-11-22** – CEO – ⚠️ TASK-P1-002 MVP COMPLETE: Core functionality verified (gates, toggle, WebSocket). Lint/type issues present. NOT production-ready. Awaiting Owner final approval.
 - **2025-11-22** – Developer – ✅ COMPLETED TASK-P1-002: Production Toggle Switch. Implemented backend gates, interrupt logic, and frontend toggle with real-time WebSocket updates. Verified in Docker.
 - **2025-11-22** – CEO – ✅ APPROVED TASK-P1-001-ARCH: All 4 architecture violations fixed. RFC 9457 verified, API versioning confirmed, file structure reorganized. LangGraph logic untouched. TASK-P1-002 UNBLOCKED.
-
 - **2025-11-22** – CEO – Created TASK-P1-001-ARCH: Architecture compliance remediation. BLOCKS P1-002. Fixes API versioning, error format, file structure to comply with 5 golden rules. LangGraph implementation already correct, no logic changes.
 - **2025-11-22** – CEO – Created TASK-P1-002: Production Toggle Switch (Killer Feature #1). BLOCKED by TASK-P1-001-ARCH.
-
-
 - **2025-11-22** – Developer – Remediated TASK-P1-001: Fixed Docker configuration (added libpq-dev), containerized frontend, verified end-to-end in Docker. All services healthy, Owner Console working.
 - **2025-11-21** – Developer – Completed TASK-P1-001: Production Toggle Foundation. Owner can submit tasks via browser UI, see real-time LangGraph processing, and view results. End-to-end flow validated in ≤20 min.
 - **2025-11-21** – Developer – Completed TASK-FIX-002: Fixed constitution violations (V-002 to V-007). Removed "dummy", "minimal", "mock" language. Aligned gate requirements across ROADMAP and CLAUDE.
@@ -40,3 +45,4 @@
 - **2025-11-21** – CEO – Approved COMPLETE_ARCHITECTURE_SPEC.md, Phase 1 ready to start.
 - **2025-11-21** – Developer – Fixed LangGraph version to 1.0.3 (spec-compliant, verified via docker).
 - **2025-11-21** – Developer – Completed monorepo skeleton: Docker builds, health checks passing.
+- **2025-11-23** – Developer – Started TASK-P1-002-FIX_executor-must-generate-files.

@@ -16,6 +16,9 @@ COPY src/ ./src/
 # Install Python dependencies (non-editable for production)
 RUN pip install --no-cache-dir .
 
+# Install Playwright browsers and dependencies
+RUN playwright install --with-deps chromium
+
 # Expose port
 EXPOSE 8002
 

@@ -1,35 +1,17 @@
 # BLOCKERS
 
-## Open
+## Active
 
-*None - B-005 resolved*
+### 🔴 BLOCKER-001: Missing Deployment Pipeline (Phase 1 Blocked)
+- **Severity**: CRITICAL  
+- **Reported**: 2025-11-23, CEO  
+- **Owner**: Unassigned  
+- **Impact**: Phase 1 (Production Toggle MVP) cannot complete - files are generated but not deployed as working apps  
+- **Symptom**: Synthetic QA fails (80% failure) because it tries to navigate to `file://` URLs instead of `http://` deployed apps  
+- **Root Cause**: No sandbox hosting layer exists - files sit in `/workspace/` but aren't served as live web apps  
+- **Blocking**: TASK-P1-002-FIX approval, Owner validation, Phase 1 exit  
+- **Next Action**: Create TASK-P1-003-DEPLOYMENT to build sandbox host (Docker container serving generated apps on unique URLs)
 
-## Resolved
+## Recently Cleared
 
-- **ID**: V-002, V-003, V-004, V-005, V-006, V-007
-  - **Date**: 2025-11-21
-  - **Resolution**: Constitution language fixed to remove "dummy", "minimal", "mock", and vague terms. Aligned gates.
-  - **Task**: TASK-FIX-002
-  - **Evidence**: docs/state/SESSIONS/2025-11-21_dev_fix002-constitution.md
-
-- **ID**: V-001
-  - **Date**: 2025-11-21
-  - **Resolution**: Implemented missing `routes.py` and `graph.py` with native LangGraph patterns.
-  - **Task**: TASK-FIX-001
-  - **Evidence**: Service running, health check passing, session log created.
-
-- **ID**: B-005
-  - **Date**: 2025-11-21  
-  - **Resolution**: Used Python 3.12 from /opt/homebrew/bin, created venv, all tools verified working
-  - **Task**: Phase 0 - Tool Version Verification
-  - **Evidence**: 
-    - Python 3.12 venv at apps/agent-runtime/.venv
-    - pytest 9.0.1, mypy 1.18.2, ruff 0.14.6, coverage 7.12.0 installed
-    - All lint + type checks pass (commits 43d4968, [latest])
-
-- **ID**: B-004
-  - **Date**: 2025-11-21
-  - **Resolution**: Research brief completed by Owner's researcher. Framework implementation complete.
-  - **Task**: Phase 0
-  - **Severity**: CRITICAL
-  - **Description**: Must define execution framework, roadmap, and November 2025 standards before ANY development work proceeds.
+- _(empty)_

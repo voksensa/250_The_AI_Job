@@ -2,6 +2,11 @@
 filename="/Users/Yousef_1/Downloads/250_The_AI_Job/docs/research/STATE_MANAGEMENT_SPEC.md"
 # STATE MANAGEMENT SPECIFICATION
 
+> **Authority Note (2025-11-23):**  
+> This document is now a **reference** for detailed state file definitions and examples.  
+> The canonical description of the state spine and persona startup protocols is `constitution/PROCESS.md`.  
+> If this file and `PROCESS.md` disagree, `PROCESS.md` wins; update this file instead of ignoring the process.
+
 File: docs/research/STATE_MANAGEMENT_SPEC.md  
 Date: 2025-11-21  
 BriefID: YFE-STATE-001  

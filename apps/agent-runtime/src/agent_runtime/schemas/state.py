@@ -6,6 +6,7 @@ from langchain_core.messages import BaseMessage
 class AgentState(TypedDict):
     """State for the agent graph."""
     schema_version: Literal["1"]  # NEW: Version tracking
+    task_id: str  # NEW: Task ID for workspace isolation
     task: str
     plan: str | None
     result: str | None
@@ -19,5 +20,6 @@ class AgentState(TypedDict):
     test_results: dict | None
     tests_passed: bool | None
     test_report: str | None
+    screenshots: list[str] | None
 
     messages: list[BaseMessage]

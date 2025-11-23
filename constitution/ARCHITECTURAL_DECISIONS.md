@@ -1,5 +1,9 @@
 # ARCHITECTURAL DECISIONS (Enforced Phase 1)
 
+> **Authority Note:**  
+> This document + `GOLDEN_RULES.md` define the **non-negotiable architecture patterns** (API versioning, error format, LangGraph state, layout, naming, imports, coverage floor).  
+> `NOVEMBER_2025_STANDARDS.md` is a **reference** for specific tool versions and per-gate thresholds; if there is ever a conflict, `GOLDEN_RULES.md` and this file win.
+
 ---
 
 ## 🔒 Non-Negotiable Architecture Rules (Applies Everywhere)
@@ -26,6 +30,12 @@
 The following 6 architectural patterns have been **validated by external researcher** as having **exponentially high cost of change later**. They MUST be enforced starting in Phase 1 (Production Toggle).
 
 **All CEO hypotheses: VALIDATED**
+
+---
+
+## Priority / Enforcement
+
+- Global non-negotiables (naming, imports, API v1, error format) are defined in `GOLDEN_RULES.md` plus this file. If other specs conflict, these win for new code.
 
 ---
 

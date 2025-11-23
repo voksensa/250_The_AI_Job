@@ -2,12 +2,13 @@
 
 ## Snapshot (Living)
 
-- **Phase**: Phase 1 – MVP (Production Toggle Proof)
-- **Active Epic**: E001 – Foundation
-- **Current Task ID**: TASK-003_production-toggle-mvp
+- **Phase**: Phase 2 – Synthetic QA Foundations
+- **Active Epic**: E002 – Constitution & QA Alignment
+- **Current Task ID**: TASK-P2-001-CONST-AUDIT (CONST_MERGE_PLAN execution)
 - **Current Owner**: Developer
-- **Gate Focus**: G1 (Research), G2 (Architecture)
-- **Last Updated**: 2025-11-21 by CEO
+- **Gate Focus**: G2 (Architecture), G4 (Docs consistency)
+- **Top Blockers**: None (see BLOCKERS.md)
+- **Last Updated**: 2025-11-23 by Developer
 
 ## Quick Links
 
@@ -15,6 +16,7 @@
 - **Blockers**: [docs/state/BLOCKERS.md](./BLOCKERS.md)
 - **Progress Log**: [docs/state/PROGRESS.md](./PROGRESS.md)
 - **Decisions**: [docs/state/DECISIONS_LOG.md](./DECISIONS_LOG.md)
+- **Operational Context**: [constitution/OPERATIONAL_CONTEXT.md](../../constitution/OPERATIONAL_CONTEXT.md)
 - **Key Specs**:
   - [Complete Architecture](../research/COMPLETE_ARCHITECTURE_SPEC.md)
   - [State Management](../../constitution/STATE_MANAGEMENT.md)

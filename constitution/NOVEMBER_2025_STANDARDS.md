@@ -1,10 +1,16 @@
 # NOVEMBER 2025 STANDARDS SPECIFICATION
 
+> **Authority Note:**  
+> This document is a **reference spec** for tool versions and detailed gate thresholds (G1–G11).  
+> Global non-negotiables (85% coverage, production from line 1, modular monolith, API `/api/v1`, Problem Details errors, snake_case, additive LangGraph state) are defined in `GOLDEN_RULES.md` and `ARCHITECTURAL_DECISIONS.md`.  
+> If anything here appears to conflict with those, **those documents win**; update this file instead of ignoring them.
+
 ## Executive Summary
 
-This document pins tool versions and defines quantitative thresholds for each quality gate (G1–G11) as of November 21, 2025. It aligns with mainstream 2025 practices for code quality, testing, security, and AI risk, drawing on guidance from large engineering organizations, testing vendors, and standards bodies. Where the existing constitution defines named gates in CLAUDE.md, this document provides **concrete, evidence-backed standards** that can be mapped to those gates.
-
-The core stance is: **new code must be lint-clean, type-checked, and well-tested (≥80% coverage) with clear production readiness and AI-specific safety practices.** These standards are enforced via CI checks and evidence artifacts under `evidence/G*/`. Tool versions are pinned to late-2025 stable releases (no alphas) to balance stability and currency.
+- Use this file as a **lookup table** for tool versions and numeric thresholds for gates G1–G11 (as of 2025-11-23).
+- Execution order remains: `GOLDEN_RULES.md` → `ARCHITECTURAL_DECISIONS.md` → `PROCESS.md` → this reference.
+- Default stance: new code is lint-clean, type-checked, docker-verified, and ≥85% covered; evidence for each gate lives in `evidence/G*/`.
+- If a value here ever conflicts with Golden Rules or Process, update this file—do not override the higher-level rules.
 
 ---
 
@@ -28,48 +34,25 @@ If CLAUDE.md uses different names or ordering, map each gate to these categories
 
 ---
 
-## 2. Global Tooling Baseline (Pinned Versions)
+## 2. Tool Baseline (Pinned Versions)
 
-### 2.1 JavaScript / TypeScript
+| Area | Tool / Stack | Version (Nov 2025) | Notes |
+| --- | --- | --- | --- |
+| JavaScript runtime | Node.js | 22 LTS | Default for Next.js + tooling |
+| JS linting | ESLint | 9.39.x | Do not use 10.x alpha |
+| JS testing | Vitest | 4.0.x | Default for Next.js / Vite frontends |
+| JS testing (legacy) | Jest | 30.2.x | Allowed for Node-heavy code only |
+| Python runtime | CPython | ≥3.11 (target 3.11.6+) | Hold on 3.12 until tools ready |
+| Python lint | Ruff | Latest stable ≥0.8 | Use instead of flake8/isort/black combos |
+| Python lint (legacy) | Flake8 | 7.3.0 | Only if plugin requires it |
+| Type checking | mypy | 1.18.x | Strict mode |
+| Python tests | pytest | 9.0.x | Use with pytest-cov |
+| Coverage tool | coverage.py | 7.11–7.12 | Export XML + text summaries |
+| Dependency policy | npm / pnpm / poetry lockfiles | — | Locks required; no floating deps |
+| SAST | GH Advanced Security / Sonar / equivalent | Latest SaaS release | Run on every PR touching prod code |
+| CI runner | GitHub Actions (or equivalent) | — | Pipelines must run lint, types, tests, coverage, evidence checks |
 
-- **Node.js:**  
-  - Use latest active LTS in late 2025 (Node 22 LTS) as default runtime for tooling and Next.js.  
-- **ESLint:**  
-  - Use `eslint` **9.39.x** (latest stable line as of early November 2025).  
-  - Do **not** adopt ESLint 10 alpha in production; alpha releases introduce breaking changes and are not considered stable.
-- **Test Frameworks:**
-  - **Jest 30.2.x** for legacy/Node-centric tests:
-    - Jest 30 (2025) focuses on real-world performance improvements and memory/jest resolution enhancements.
-  - **Vitest 4.0.x** for Vite/Next-aligned projects:
-    - Vitest 4 (October 2025) offers browser mode, visual regression support, and an improved coverage pipeline.
-  - Choose **one primary** (Vitest for new frontends; Jest for Node-heavy code) to minimize complexity.
-
-### 2.2 Python
-
-- **Runtime:**  
-  - Python **3.11** minimum; prepare for 3.12 once all key tools fully support it.
-- **Linters/Formatters:**
-  - **Ruff** as primary linter/formatter:
-    - Modern, extremely fast; can replace much of Flake8, isort, and Black in one tool.
-  - Optionally keep **Flake8 7.3.0** for legacy plugins:
-    - Latest release June 2025.
-- **Type Checker:**  
-  - **mypy 1.18.x** (September 2025 line).
-- **Testing & Coverage:**
-  - **pytest 9.0.x** (latest stable November 2025).
-  - **coverage.py 7.11–7.12.x**:
-    - coverage 7.11/7.12 support modern Python versions and improved coverage capabilities.
-  - Use `pytest-cov` to integrate coverage.py with pytest.
-
-### 2.3 Shared & Security-Relevant Tools
-
-- **Dependency & Supply-Chain**
-  - Enforce lockfiles (`package-lock.json`, `pnpm-lock.yaml`, `poetry.lock`, etc.) and pin versions, especially around known supply-chain incidents (e.g., compromised `eslint-config-prettier` and related npm packages in mid-2025).
-- **Static Application Security Testing (SAST)**
-  - Preferred: widely used SAST or code-scanning tools (e.g., GitHub Advanced Security, SonarQube, or similar) configured for JS/TS/Python.
-- **CI/CD**
-  - Use GitHub Actions or equivalent with:
-    - Lint, type, test, coverage, SAST, and evidence existence checks per gate.
+Always pin exact minor versions in `package-lock.json`, `poetry.lock`, etc. Capture tool versions used during a task inside the evidence folder if they differ from the table.
 
 ---
 
@@ -427,7 +410,7 @@ Ensure every change is launch-ready in the sense used by modern PRR (Production 
 * Ruff is widely recognized as a modern, extremely fast Python linter/formatter, often replacing Flake8, isort, and Black. ([GitHub][2])
 * Industry coverage guidance:
 
-  * Google’s testing blog and subsequent summaries suggest 60% as acceptable, 75% commendable, 90% exemplary; Atlassian and multiple tool vendors commonly recommend ~80% as a good practical target. ([Google Testing Blog][3])
+  * Google’s testing blog and subsequent summaries suggest 60% as acceptable, 75% commendable, 90% exemplary; Atlassian and multiple tool vendors commonly recommend coverage in the high-seventies to low-eighties as a practical target, but this constitution enforces an 85% minimum. ([Google Testing Blog][3])
 * Production readiness and PRR patterns:
 
   * Google SRE’s Launch Coordination Checklist and Production Readiness Review, GitLab’s production readiness review, and multiple modern checklists emphasize checklists, runbooks, risk assessment, and pre-launch reviews. ([sre.google][4])

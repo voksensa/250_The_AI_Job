@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { submitTask } from '../lib/api';
+import QAResults from './qa-results';
+import { FileTree } from './file-tree';
 
 interface EventLog {
   timestamp: string;
@@ -272,6 +274,9 @@ export default function Home() {
               </section>
             )}
 
+            {/* Synthetic QA Results */}
+            {taskId && <QAResults events={events} />}
+
             {error && (
               <div className="bg-red-900/50 border border-red-700 text-red-200 p-4 rounded-md">
                 {error}
@@ -311,6 +316,8 @@ export default function Home() {
                 </div>
               </section>
             )}
+
+            {taskId && <FileTree taskId={taskId} />}
           </div>
         </main>
       </div>

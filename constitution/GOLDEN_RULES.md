@@ -1,158 +1,98 @@
 # GOLDEN RULES
 
-**Last Updated**: 2025-11-22  
-**Status**: ACTIVE - Enforced for all new code  
-**Adopted From**: RB-003 (Tier 1 Immediate Enforcement)
+**Last Updated:** 2025-11-23  
+**Status:** Binding for all new/changed code
+
+These rules keep the Owner's "diamond" (time, trust, opportunity) from being used as a shovel. They apply to every role on every task.
 
 ---
 
-## Purpose
+## Rule 0 – Diamond Rule (Push Back)
 
-These are **non-negotiable practices** that prevent "using diamonds as shovels" - AI developers must follow these rules and push back when instructions violate them.
+If an instruction breaks any rule or smells like diamond-as-shovel, you MUST:
 
-**Scope**: Apply to **NEW and CHANGED code only**. Do not retroactively rewrite existing code to comply unless it's a critical blocker.
+1. Say: `This breaks GOLDEN RULES: {rule}` (or `Diamond risk: {reason}`).
+2. Explain the risk in one sentence.
+3. Offer one safer alternative.
+4. Stop until the Owner writes: `I accept the risk; proceed.`
 
----
+### Rule 0.1 – Diamond Analogy
 
-## Rule 0: The Diamond Rule (AI Must Push Back)
+- Owner brings the diamond; roles protect it.
+- Always ask: "Does this burn time/quality/budget for tiny gain?"
+- Typical diamond risks: "skip tests", "rewrite everything", "ship with mocks", "custom stack with no reason".
+- Name the risk and present a safer option before touching code.
 
-**If an instruction breaks any rule below, AI developers MUST**:
+### Rule 0.2 – Separation of Duties (Zero Trust)
 
-1. **Flag the conflict clearly**:  
-   > "This breaks GOLDEN RULES: [rule name]."
+No one writes → validates → approves their own work.
 
-2. **Explain the risk in one sentence**.
+| Role | What they do | What they never do |
+| --- | --- | --- |
+| Developer (`AGENTS.md`) | Build backend + frontend together, run tests/coverage ≥85%, gather evidence, update state | Self-validate, declare tasks "done", skip Docker proof |
+| Validator (`VALIDATOR.md`) | Zero-trust review, gatekeeper for Golden Rules + architecture + evidence, write `VALIDATION_*.md` | Change production code, talk directly to Dev/CEO, rely on claims without proof |
+| CEO (`CLAUDE.md`) | Reads Validator report, checks phase fit, writes CEO decision per format | Review unvalidated work, waive gates "because hurry", edit code |
+| Owner | Invokes one role at a time, manually uses UI (zero DevTools errors) before acceptance | Assume anything without written evidence |
 
-3. **Offer a safer alternative**.
-
-4. **Only proceed** if Owner/CEO explicitly confirms:  
-   > "I understand the risk, do it anyway."
-
-**This applies even if the Owner sounds 100% certain or is in a rush.**
-
----
-
-## Rule 1: Test Coverage 85% Minimum
-
-**What**:  
-All NEW or CHANGED code must have ≥ **85% line coverage**.
-
-**Applies To**:
-- Backend (Python): 85% minimum
-- Frontend (TypeScript/React): 85% minimum
-
-**Enforcement**:
-- CI must measure coverage on changed files
-- PR cannot merge if coverage < 85%
-- No waivers by default
-
-**Rationale**: Owner's mandate - "85% MINIMUM front/back. no excuses"
+Nothing is complete until all four steps pass: tests ≥85%, validator report, CEO decision, Owner browser validation.
 
 ---
 
-## Rule 2: Production From Line 1
+## Rule 1 – Test Coverage ≥85%
 
-**What**:  
-There is **only one quality level: production-grade**.
+- Every change (backend + frontend) must report ≥85% line coverage.
+- CI/coverage reports for changed files; no silent waivers.
+- Quote actual % in evidence (G5) and state files.
 
-**This Means**:
-- No "dev mode" with lower standards
-- No hard-coded fake data that wouldn't work in production
-- Sandboxes are "not yet exposed to users", NOT "lower quality allowed"
+## Rule 2 – Production from Line 1
 
-**Enforcement**:
-- All code must be written as if already live
-- AI devs must reject any "let's make it work in dev first" shortcuts
+- One quality bar: real services, real data paths, Docker only (`docker-compose build/up`).
+- No fake data, "temporary" hacks, or local-only runs.
+- If a scenario requires stubbing (e.g., third-party outage), document and gate it.
 
-**Rationale**: AI developers can't differentiate between "dev hacks" and "production code" - they understand only one standard.
+## Rule 3 – No Big-Bang Refactors
 
----
+- Define module boundaries early and change them incrementally.
+- Large rewrites require a research brief + explicit Owner decision.
+- Every structural change must include tests and migration notes.
 
-## Rule 3: No Big-Bang Refactors
+## Rule 4 – Modular Monolith
 
-**What**:  
-Design **domain boundaries early**, make structural changes in **small, tested PRs**.
-
-**This Means**:
-- Decide module boundaries up front (e.g., `agent_runtime`, `sandbox`, `owner_console`)
-- Enforce those boundaries (no cross-module hack imports)
-- When structure needs to change, do it incrementally with tests
-- Any "let's rewrite the whole thing" proposal requires research doc + approval
-
-**Forbidden**:
-- One giant PR that moves/renames everything
-- "Burn it all down and start over" rewrites
-
-**Rationale**: Owner mandate - "I don't want to fucking refactor, cause that shit breaks all code bases"
+- Keep a single deployable with clearly separated domains (agent runtime, owner console, sandbox, etc.).
+- Use `/src` layouts, scoped packages, RFC 9457 errors, `/api/v1` routes, snake_case everywhere, additive LangGraph state.
+- Crossing boundaries without an interface is a violation.
 
 ---
 
-## Rule 4: Modular Monolith (Microservice-Shaped)
+## Using the Rules
 
-**What**:  
-Design code as if modules will become separate services, but keep ONE deployable for now.
+1. **Before coding:** Read this file, compare the planned change to Rules 1–4, and note any risks.
+2. **During work:** Enforce Rule 2 (Docker) and Rule 1 (coverage) continuously; capture evidence as you go.
+3. **Before handoff:** Run the Diamond check again; if you had to bend a rule, record the waiver from Owner.
+4. **Validators/CEOs:** Reject work immediately if a Golden Rule is violated without written Owner approval.
 
-**This Means**:
-- Separate packages/namespaces per domain
-- Modules communicate via clear interfaces
-- Future microservice split = minimal code changes
-
-**Enforcement**:
-- Directory structure reflects domains:  
-  `apps/agent-runtime/`, `apps/owner-console/`, etc.
-- No random cross-imports between domains
-
-**Rationale**: Prevents massive refactor later while avoiding early microservice complexity
-
----
-
-## How AI Developers Must Use These Rules
-
-**At the start of every task**:
-1. Read this file
-2. Check planned changes against all 4 rules
-3. Use Rule 0 (Diamond Rule) if ANY conflict exists
-
-**If unsure**, the safe default is:
-> "I will follow the Golden Rules and ask Owner/CEO if they want to override."
-
----
-
-## How Owner/CEO Uses These Rules
-
-**As a checklist**:
-- "Did this PR respect all Golden Rules?"
-
-**As a shield**:
-- If AI dev suggests breaking a rule:  
-  > "No, that breaks GOLDEN RULES (see Rule X). Find another way."
-
-**Violations = process bug**, not normal mistake.
+Default answer when pressured: “I will follow the Golden Rules; please confirm if you want to override.”
 
 ---
 
 ## Relationship to Other Constitution Files
 
-**Priority Order**:
-1. **GOLDEN_RULES.md** (this file) - highest priority for new code
-2. `CLAUDE.md` - quality gates + execution protocol
-3. `NOVEMBER_2025_STANDARDS.md` - detailed architecture
-4. Other specs - domain-specific details
+Priority order for new code:
 
-**If conflict**: GOLDEN_RULES wins for new code decisions.
+1. `GOLDEN_RULES.md` (this file) — law.
+2. `ARCHITECTURAL_DECISIONS.md` — enforced patterns (API `/api/v1`, RFC 9457, LangGraph state, layout, imports, naming).
+3. `PROCESS.md` — single process/runbook for tasks and state.
+4. Role manuals (`AGENTS.md`, `VALIDATOR.md`, `CLAUDE.md`) — how each persona behaves.
+5. `NOVEMBER_2025_STANDARDS.md` — tool versions + numeric thresholds.
+6. Other specs (architecture briefs, research) — supporting detail.
+
+If any document conflicts with this order, update it. Do not invent side rules.
 
 ---
 
-## Future Tiers (Not Yet Enforced)
+## Upcoming Tiers (Not Yet Enforced)
 
-**Tier 2 (Phase 2+)**:
-- OpenAPI specs for all APIs
-- Structured logging + metrics
-- Security baseline (OWASP ASVS)
+- Tier 2: Mandatory OpenAPI specs, structured logging, baseline security controls.
+- Tier 3: Size guidelines (file/function length), PR limits, enhanced observability gates.
 
-**Tier 3 (Guidelines)**:
-- File size limits (250/400 lines)
-- Function size (30/60 lines)
-- PR size preferences
-
-**These will be added when formally adopted.**
+They are aspirational until promoted by the Owner.
