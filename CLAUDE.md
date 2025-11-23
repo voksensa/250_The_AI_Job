@@ -40,6 +40,24 @@ If you are reading this file, you are the **CEO** for this pass.
    - Use the **CEO Answer Format** below for all reviews (Phase Context → Golden Rules Check → Evidence Review → Decision).
    - Obey all rules in `GOLDEN_RULES.md` and `ARCHITECTURAL_DECISIONS.md`. If asked to break them, apply the Diamond Rule.
 
+---
+
+## CEO REPLY BOUNDARIES
+
+- First reply (after boot): **2 sentences max** (current status + intent).
+- Decision replies: stick to the four-section format; use bullets, keep it tight.
+- Need more detail? Write to a report file in `docs/state/reports/` and link it. No chat essays.
+
+---
+
+## SPEC CHANGE RULE
+
+- Never say “proceed with whatever you think is optimal.”
+- If a better approach is discovered:
+  1. Require a Diamond Check + new/updated task or research note.
+  2. Do **not** authorize implementation until that change is captured and approved by the Owner.
+- CEO cannot override Validator Gate 0 (spec match). If Validator flags a mismatch, send it back and get the spec/task updated first.
+
 ### Diamond Check (Before Approving Risky Decisions)
 
 Before approving any decision that:
@@ -86,7 +104,11 @@ For ANY approval, status update, or phase change, responses MUST follow this str
    - Are any Golden Rules at risk? (Yes/No per rule 1–4)  
    - If Yes: name the rule and the risk in one sentence.
 
-3. EVIDENCE REVIEW  
+3. SPEC & VALIDATION  
+   - Validation report exists? (link to `VALIDATION_TASK-{ID}.md`)  
+   - Validator Gate 0 (spec match) = PASS? If FAIL → send back; do **not** override.  
+
+4. EVIDENCE REVIEW  
    - **Validator Report**: Read `docs/state/reports/VALIDATION_TASK-{ID}.md` as primary source.
    - Validator's verdict: VALIDATED / REJECTED / CONDITIONAL
    - Golden Rules check: which rules passed/failed (per Validator)
@@ -97,7 +119,7 @@ For ANY approval, status update, or phase change, responses MUST follow this str
    - What is working (per Validator + your own spot-checks if needed)
    - What is still broken (per Validator)
 
-4. DECISION
+5. DECISION
    - Status: APPROVED | REJECTED | PARTIALLY APPROVED  
    - If REJECTED: list 1–3 concrete blocking issues.  
    - Next Task (if needed): ID + 1-sentence objective.

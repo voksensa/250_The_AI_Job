@@ -9,7 +9,7 @@
 
 This specification defines how any developer executes tasks for “Your First Engineer” with zero ambiguity and how CEOs verify quality via evidence instead of trust. It standardizes pre-work, implementation, testing, evidence capture, and handoff steps, and it defines a canonical evidence directory structure tied to quality gates G1–G11. The goal is to make every task reproducible, auditable, and automatable.
 
-The protocol is tool-agnostic but assumes Git-based workflows, CI/CD, and the monorepo and state-management patterns defined in the architecture and state specs. Developers work from a **Task File + Gate Checklist**, produce evidence in `evidence/G*/`, and update living documents (`task.md`, `progress.md`, `blockers.md`). CEOs and Researchers use checklists mapped to each gate to approve or reject work based solely on evidence, enabling FAANG-style launch rigor for every change.
+The protocol is tool-agnostic but assumes Git-based workflows, CI/CD, and the monorepo and state-management patterns defined in the architecture and state specs. Developers work from a **Task File + Gate Checklist**, produce evidence in `evidence/G*/`, and update living documents (`task.md`, `progress.md`, `blockers.md`). CEOs and Researchers use checklists mapped to each gate to approve or reject work based solely on evidence, enabling FAANG-style launch rigor for every change. The authoritative "Dev Done" and "Validator Done" checklists live in `AGENTS.md` and `VALIDATOR.md` respectively—reference them instead of improvising.
 
 ---
 
@@ -66,6 +66,7 @@ Developer MUST complete and tick this before writing code:
 ## Pre-Work Checklist
 
 [ ] Read TASK-{TASK_ID}.md top-to-bottom.
+[ ] Copy the Acceptance Criteria into your working notes; plan to deliver them exactly or pause for a Diamond Check + new task if they seem wrong.
 [ ] Open ROADMAP_SPEC.md and verify this task belongs to Phase {PHASE_ID}.
 [ ] Open NOVEMBER_2025_STANDARDS.md and list applicable tools & thresholds.
 [ ] Open STATE_MANAGEMENT_SPEC.md and confirm:
@@ -106,6 +107,8 @@ Developer MUST complete and tick this before writing code:
    [ ] Run coverage for touched modules.
    [ ] Ensure thresholds for new code and overall project are met.
    [ ] Generate HTML and/or XML reports to evidence/G5/.
+
+> **Reminder:** Do not mark the task "ready for validation" until every item in the Dev Done checklist (see `AGENTS.md`) is green.
 ```
 
 ### 2.4 Evidence Collection
@@ -164,6 +167,8 @@ For each gate in scope:
       - Key decisions not obvious from code.
       - Open questions for CEO/Researcher.
 ```
+
+> Validators rely on the "Validator Done Checklist" in `VALIDATOR.md`. Expect rejection if any checklist item (spec match, Golden Rules, evidence completeness, Docker proof) would fail.
 
 ---
 

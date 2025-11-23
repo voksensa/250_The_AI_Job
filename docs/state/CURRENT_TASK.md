@@ -1,40 +1,28 @@
 # CURRENT TASK
 
-**Task ID**: TASK-P1-002-FIX (File Generation) - PARTIALLY COMPLETE  
+**Task ID**: TASK-P1-004-DEPLOYMENT-FIX  
+**Title**: Sandbox Hosting Layer (Per-Task Port Allocation)  
 **Phase**: Phase 1 – Production Toggle MVP  
-**Owner**: Awaiting Owner Decision  
-**Status**: ⚠️ BLOCKED ON DEPLOYMENT (CEO Rejected 2025-11-23)  
-**Started**: 2025-11-23  
+**Owner**: Developer (awaiting invocation)  
+**Status**: NOT STARTED  
+**Created**: 2025-11-23  
+**Target Gates**: G4 (Lint/Types), G5 (Tests/Coverage), G6 (Builds)  
+**DEV_MODEL**: GPT
 
 ---
 
-## Current Status
+## Objective
 
-**Completed**:
-- ✅ Executor generates real files (not text explanations)
-- ✅ Files stored in Docker workspace (`/workspace/{task_id}`)
-- ✅ Download API endpoints working (files list, ZIP download)
-- ✅ Frontend FileTree component displays files
-- ✅ 93% test coverage on `execution.py`
+Build sandbox hosting layer with **per-task unique port allocation** so generated files in `/workspace/{task_id}/` are accessible at `http://localhost:{port}` for Owner/QA validation.
 
-**Blocking Issue (BLOCKER-001)**:
-- ❌ No deployment pipeline - files sit in `/workspace/` but aren't served as live web apps
-- ❌ Synthetic QA fails (80% failure rate) - tries to test `file://` URLs instead of deployed `http://` apps
-- ❌ ROADMAP_SPEC P1 requirement NOT met: "deployed HTTPS web app" missing
+## Definition of Done
 
-## Owner Decision Required
-
-**Option A** (Recommended by CEO):
-- Accept file generation as complete (it works)
-- Create TASK-P1-003-DEPLOYMENT for sandbox hosting layer
-- Unblock Phase 1 completion incrementally
-
-**Option B**:
-- Reject P1-002 as incomplete
-- Require files → deployed app flow before approval
-- Delays Phase 1 exit
+- [ ] Each task allocated unique port (3100-3199 range)
+- [ ] Files served via HTTP at `http://localhost:{port}/`
+- [ ] RFC 9457 error responses
+- [ ] ≥85% test coverage
+- [ ] Full evidence (G4/G5/G6 artifacts, Docker logs, browser + DevTools screenshots)
 
 ## Next Action
 
-- Awaiting Owner choice (A or B)
-- If Option A: Create TASK-P1-003-DEPLOYMENT.md with sandbox host requirements
+**Owner**: Invoke Developer with `TASK-P1-004-DEPLOYMENT-FIX.md` to test hardened pipeline.

@@ -2,13 +2,13 @@
 
 ## Snapshot (Living)
 
-- **Phase**: Phase 2 – Synthetic QA Foundations
-- **Active Epic**: E002 – Constitution & QA Alignment
-- **Current Task ID**: TASK-P2-001-CONST-AUDIT (CONST_MERGE_PLAN execution)
-- **Current Owner**: Developer
-- **Gate Focus**: G2 (Architecture), G4 (Docs consistency)
-- **Top Blockers**: None (see BLOCKERS.md)
-- **Last Updated**: 2025-11-23 by Developer
+- **Phase**: Phase 1 – Production Toggle MVP
+- **Active Epic**: E001 – Production Toggle Foundation
+- **Current Task ID**: TASK-P1-004-DEPLOYMENT-FIX
+- **Current Owner**: Developer (awaiting invocation)
+- **Gate Focus**: G4 (Lint/Types), G5 (Tests/Coverage), G6 (Builds)
+- **Top Blockers**: BLOCKER-001 (deployment pipeline) - P1-004 in progress
+- **Last Updated**: 2025-11-23 by CEO
 
 ## Quick Links
 

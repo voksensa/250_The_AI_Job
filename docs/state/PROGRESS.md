@@ -1,7 +1,11 @@
 # PROGRESS LOG
 
+- **2025-11-23** – Codex – ✅ PIPELINE_HARDENING – Tightened Dev/Validator/CEO roles, enforced spec obedience, and removed "do what you think is optimal" loopholes; see `docs/state/reports/PIPELINE_HARDENING_2025-11-23.md`.
+- **2025-11-23** – CEO – ✅ CREATED TASK-P1-004-DEPLOYMENT-FIX: Fresh deployment task with explicit per-task port allocation, RFC 9457 compliance, and full evidence requirements. Supersedes rejected P1-003. Testing hardened pipeline with `DEV_MODEL: GPT`.
+- **2025-11-23** – Validator – ❌ TASK-P1-003-DEPLOYMENT – REJECTED (per-task port requirement, RFC9457 errors, and coverage/docker evidence missing; see VALIDATION_TASK-P1-003-DEPLOYMENT.md).
 - **2025-11-23** – Codex – ✅ CONST_AUDIT – Audited and refactored constitution/state files per Zero-Trust Diamond model; see `docs/state/reports/CONST_AUDIT_2025-11-23.md`.
 - **2025-11-23** – Developer – ✅ COMPLETED CONST_MERGE_PLAN execution: coverage refs aligned to 85% (NOVEMBER_2025_STANDARDS, ROADMAP_SPEC), enforcement note added to ARCHITECTURAL_DECISIONS, CLAUDE/AGENTS slimmed to protocols, OPERATIONAL_CONTEXT + state spine (INDEX/CURRENT_TASK/BLOCKERS) refreshed.
+- **2025-11-23** – Developer – ✅ COMPLETED TASK-P1-003-DEPLOYMENT: Built `sandbox-proxy` service (FastAPI) on port 3001. Files in `/workspace/{task_id}` are now served at `http://{task_id}.localhost:3001`. Verified 9/9 unit tests + E2E curl test. Evidence: `evidence/G6/TASK-P1-003-DEPLOYMENT-verification.md`.
 - **2025-11-23** – CEO – ❌ REJECTED TASK-P1-002-FIX: File generation works (93% coverage ✅), but DEPLOYMENT PIPELINE MISSING. QA fails 80% (tries to test file:// URLs instead of deployed apps). Blocking: Need TASK-P1-003-DEPLOYMENT for sandbox hosting.
 - **2025-11-23** – Developer – ⚠️ PARTIAL SUCCESS P1-002-FIX: Executor creates real files (`hello.py` in `/workspace/`), download API works, FileTree UI integrated. Evidence: 93% coverage, Docker proof. But Synthetic QA broken - no deployment layer.
 - **2025-11-23** – CEO – ✅ APPROVED Graph Execution Fix: Root causes (missing Playwright browsers, beautifulsoup4, screenshots field) identified and fixed. Logs confirm test_executor/evaluator now execute. Ready for Owner retest.

@@ -36,6 +36,7 @@ The following 6 architectural patterns have been **validated by external researc
 ## Priority / Enforcement
 
 - Global non-negotiables (naming, imports, API v1, error format) are defined in `GOLDEN_RULES.md` plus this file. If other specs conflict, these win for new code.
+- URLs, addressing patterns, and similar deployment semantics (ports vs hostnames, etc.) are treated as acceptance-criteria-level architecture. Deviations require an explicit design-change task approved by Owner/CEO before implementation.
 
 ---
 

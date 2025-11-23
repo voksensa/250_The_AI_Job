@@ -38,6 +38,21 @@ services:
     volumes:
       - workspace:/workspace
 
+  sandbox-proxy:
+    build:
+      context: ./apps/sandbox-proxy
+      dockerfile: Dockerfile
+    container_name: yfe-sandbox-proxy
+    ports:
+      - "3001:3001"
+    volumes:
+      - workspace:/workspace:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/api/v1/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
   owner-console:
     build:
       context: ./apps/web

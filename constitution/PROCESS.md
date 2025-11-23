@@ -76,6 +76,7 @@ Outcome: In <2 minutes, you know scope, evidence, and whether you should proceed
    - Read the task file.  
    - Confirm it matches current phase in `INDEX.md`.  
    - Identify which gates (G1–G11) are in scope.  
+   - Review the Acceptance Criteria and plan to deliver them exactly. If you believe the spec is wrong, run a Diamond Check and pause for Owner decision/new task before coding.  
    - Post a one-sentence understanding to Owner and wait for YES.
 
 2. **Implementation**
@@ -91,7 +92,7 @@ Outcome: In <2 minutes, you know scope, evidence, and whether you should proceed
 4. **Handoff**
    - Update `PROGRESS.md` and `CURRENT_TASK.md`.  
    - If blocked, log in `BLOCKERS.md` with `Owner: CEO` or `Owner: Owner`.  
-   - Notify the Owner that the task is **ready for validation** (not approval).
+   - Notify the Owner that the task is **ready for validation** (not approval) only after the Dev Done checklist in `AGENTS.md` is fully satisfied (including acceptance criteria match).
 
 (Details and examples live in `EXECUTION_PROTOCOL_SPEC.md` — this section is the contract.)
 
@@ -102,7 +103,7 @@ Outcome: In <2 minutes, you know scope, evidence, and whether you should proceed
 After the Developer handoff:
 
 1. Run the Validator startup protocol (3.4).
-2. Check Golden Rules, Architecture Decisions, and gates using evidence only.
+2. Run Gate 0 (spec match) first; if it fails, reject immediately. Then check Golden Rules, Architecture Decisions, and gates using evidence only.
 3. Write `docs/state/reports/VALIDATION_TASK-{ID}.md` with verdict (VALIDATED / REJECTED / CONDITIONAL) and any diamond risks.
 4. Update `PROGRESS.md` (e.g., "Validation complete — VALIDATED") and `BLOCKERS.md` if remediation is required.
 5. Notify Owner so they can decide whether to re-invoke Developer (for fixes) or move to CEO review.
@@ -118,12 +119,25 @@ When CEO reviews a task:
 3. Use the CEO Answer Format in `CLAUDE.md`:
    - Phase Context  
    - Golden Rules Check  
+   - Spec & Validation check (Validator report present + Gate 0 PASS)  
    - Evidence Review  
    - Decision (APPROVED / REJECTED / PARTIAL + next steps)
 
 ---
 
-## 7. Relationship to Old Docs
+## 7. Design Change Protocol
+
+Whenever any role believes the architecture or acceptance criteria should change (e.g., switching from per-task ports to hostnames):
+
+1. **Stop coding** — do not implement the alternative silently.
+2. Run a Diamond Check describing Option A (spec as written) vs Option B (proposed change).
+3. Create a new design/change task or research note (e.g., `TASK-XXX-DESIGN-CHANGE.md`) capturing the proposal.
+4. Owner/CEO approves the new task; update the relevant specs/constitution files.
+5. Only after the new task/spec merges may the Developer implement the change.
+
+---
+
+## 8. Relationship to Old Docs
 
 - `EXECUTION_PROTOCOL_SPEC.md` — Detailed checklists per gate and role. Use as reference.  
 - `STATE_MANAGEMENT.md` — Detailed definitions and examples for state files. Use as reference.
